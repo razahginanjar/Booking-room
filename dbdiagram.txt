@@ -1,0 +1,70 @@
+https://dbdiagram.io/d/Final-Project-Room-Booking-App-66d93357eef7e08f0ebe0799
+
+Table ActivityLog {
+    activityLogId string
+    activityLogTimestamp datetime
+    employee_id string [ref: > Employee.employeeId]
+    activityLogDescription string
+}
+
+Table Employee {
+    employeeId string
+    employeeName string
+    department string
+    phoneNumber string
+    corporateEmail string
+    user_id string [ref: > User.userId]
+}
+
+Table Equipment {
+    equipmentId string
+    equipmentName string
+    reservation_id string [ref: > Reservation.reservationId]
+    equipmentStatus string [note: "Enum to equipment status"]
+}
+
+Table Reservation {
+    reservationId string
+    employee_id string [ref: > Employee.employeeId]
+    room_id string [ref: > Room.roomId]
+    reserveDate datetime
+    startTime datetime
+    endTime datetime
+    reservationStatus string [note: "Enum to reservation status"]
+    reservationDescription string
+}
+
+Table Role {
+    roleId string
+    constantRole string
+}
+
+Table Room {
+    roomId string
+    roomType string
+    roomCapacity string
+    vacancy boolean
+}
+
+Table RoomFacility {
+    roomFacilityId string
+    roomFacilityName string
+    roomId string
+}
+
+Table User {
+    userId string
+    username string
+    password string
+    role_id string [ref: > Role.roleId]
+}
+
+Ref: Room.roomId <> RoomFacility.roomId
+
+
+aku hapus beberapa table yg ga terlalu kepake kaya equipment status sama reservation status
+karena itu cuma di pake di service itu aja (beda kasus sama role user karena dia dipake juga di auth)
+
+activity log aku masukin ke tabel employee
+karena menurutku tabel user hanya fokus buat masalah security (authentication sama authorization) aja
+jadi yang informatif2 masuk table employee aja
