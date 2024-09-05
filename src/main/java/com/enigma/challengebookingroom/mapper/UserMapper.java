@@ -1,4 +1,4 @@
-package com.enigma.challengebookingroom.Mapper;
+package com.enigma.challengebookingroom.mapper;
 
 import com.enigma.challengebookingroom.dto.response.Auth.LoginResponse;
 import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;

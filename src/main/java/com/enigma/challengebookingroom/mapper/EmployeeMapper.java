@@ -1,6 +1,6 @@
-package com.enigma.challengebookingroom.Mapper;
+package com.enigma.challengebookingroom.mapper;
 
-import com.enigma.challengebookingroom.dto.response.Employee.EmployeeResponse;
+import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 
 public interface EmployeeMapper {

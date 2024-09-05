@@ -1,14 +1,13 @@
-package com.enigma.challengebookingroom.Service.Impl;
+package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.Mapper.EmployeeMapper;
-import com.enigma.challengebookingroom.Service.EmployeeService;
+import com.enigma.challengebookingroom.mapper.EmployeeMapper;
+import com.enigma.challengebookingroom.service.EmployeeService;
 import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
-import com.enigma.challengebookingroom.dto.response.Employee.EmployeeResponse;
+import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 

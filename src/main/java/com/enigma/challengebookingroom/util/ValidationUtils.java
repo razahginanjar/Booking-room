@@ -1,19 +1,15 @@
 package com.enigma.challengebookingroom.util;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.regex.PatternSyntaxException;
 
+import org.springframework.stereotype.Component;
 @Component
-@RequiredArgsConstructor
 public class ValidationUtils {
 
-    private ConstantMessage() {
+    private ValidationUtils() {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-        
     }
 
     public static boolean isNotEmpty(String value) {

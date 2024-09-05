@@ -1,11 +1,6 @@
-package com.enigma.challengebookingroom.dto.response.Room;
+package com.enigma.challengebookingroom.dto.response;
 
-import com.enigma.challengebookingroom.dto.response.RoomFacility.RoomFacilityResponse;
-import com.enigma.challengebookingroom.entity.RoomFacility;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import com.enigma.challengebookingroom.dto.RoomFacilityResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

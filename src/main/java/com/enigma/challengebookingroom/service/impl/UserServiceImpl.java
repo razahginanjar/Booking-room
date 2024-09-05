@@ -1,15 +1,11 @@
-package com.enigma.challengebookingroom.Service.Impl;
+package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.Service.EmployeeService;
-import com.enigma.challengebookingroom.Service.UserService;
-import com.enigma.challengebookingroom.dto.response.Auth.LoginResponse;
-import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;
+import com.enigma.challengebookingroom.service.EmployeeService;
+import com.enigma.challengebookingroom.service.UserService;
 import com.enigma.challengebookingroom.entity.User;
 import com.enigma.challengebookingroom.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 

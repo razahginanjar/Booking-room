@@ -1,17 +1,15 @@
-package com.enigma.challengebookingroom.Service.Impl;
+package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.Mapper.RoomFacilityMapper;
-import com.enigma.challengebookingroom.Service.RoomFacilityService;
+import com.enigma.challengebookingroom.mapper.RoomFacilityMapper;
+import com.enigma.challengebookingroom.service.RoomFacilityService;
 import com.enigma.challengebookingroom.dto.request.RoomFacilityRequest;
-import com.enigma.challengebookingroom.dto.response.RoomFacility.RoomFacilityResponse;
+import com.enigma.challengebookingroom.dto.RoomFacilityResponse;
 import com.enigma.challengebookingroom.entity.RoomFacility;
 import com.enigma.challengebookingroom.repository.RoomFacilityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

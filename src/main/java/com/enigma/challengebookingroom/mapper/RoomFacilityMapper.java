@@ -1,6 +1,6 @@
-package com.enigma.challengebookingroom.Mapper;
+package com.enigma.challengebookingroom.mapper;
 
-import com.enigma.challengebookingroom.dto.response.RoomFacility.RoomFacilityResponse;
+import com.enigma.challengebookingroom.dto.RoomFacilityResponse;
 import com.enigma.challengebookingroom.entity.RoomFacility;
 
 public interface RoomFacilityMapper {

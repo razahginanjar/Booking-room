@@ -1,7 +1,7 @@
-package com.enigma.challengebookingroom.Service;
+package com.enigma.challengebookingroom.service;
 
 import com.enigma.challengebookingroom.dto.request.RoomFacilityRequest;
-import com.enigma.challengebookingroom.dto.response.RoomFacility.RoomFacilityResponse;
+import com.enigma.challengebookingroom.dto.RoomFacilityResponse;
 import com.enigma.challengebookingroom.entity.RoomFacility;
 
 public interface RoomFacilityService {

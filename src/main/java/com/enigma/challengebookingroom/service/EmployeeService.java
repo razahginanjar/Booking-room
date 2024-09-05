@@ -1,7 +1,7 @@
-package com.enigma.challengebookingroom.Service;
+package com.enigma.challengebookingroom.service;
 
 import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
-import com.enigma.challengebookingroom.dto.response.Employee.EmployeeResponse;
+import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 
 import java.util.List;

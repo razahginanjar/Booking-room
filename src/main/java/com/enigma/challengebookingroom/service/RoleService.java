@@ -1,4 +1,4 @@
-package com.enigma.challengebookingroom.Service;
+package com.enigma.challengebookingroom.service;
 
 import com.enigma.challengebookingroom.dto.request.RoleRequest;
 import com.enigma.challengebookingroom.entity.Role;

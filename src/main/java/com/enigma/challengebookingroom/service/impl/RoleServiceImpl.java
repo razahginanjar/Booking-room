@@ -1,6 +1,6 @@
-package com.enigma.challengebookingroom.Service.Impl;
+package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.Service.RoleService;
+import com.enigma.challengebookingroom.service.RoleService;
 import com.enigma.challengebookingroom.dto.request.RoleRequest;
 import com.enigma.challengebookingroom.entity.Role;
 import com.enigma.challengebookingroom.repository.RoleRepository;

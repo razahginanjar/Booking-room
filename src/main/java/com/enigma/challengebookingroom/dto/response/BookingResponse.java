@@ -1,7 +1,6 @@
-package com.enigma.challengebookingroom.dto.response.Booking;
+package com.enigma.challengebookingroom.dto.response;
 
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
-import com.enigma.challengebookingroom.dto.response.Equipment.EquipmentResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

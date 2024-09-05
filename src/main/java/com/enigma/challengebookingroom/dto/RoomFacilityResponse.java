@@ -1,4 +1,4 @@
-package com.enigma.challengebookingroom.dto.response.RoomFacility;
+package com.enigma.challengebookingroom.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

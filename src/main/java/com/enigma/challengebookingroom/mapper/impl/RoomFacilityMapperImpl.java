@@ -1,7 +1,7 @@
-package com.enigma.challengebookingroom.Mapper.Impl;
+package com.enigma.challengebookingroom.mapper.impl;
 
-import com.enigma.challengebookingroom.Mapper.RoomFacilityMapper;
-import com.enigma.challengebookingroom.dto.response.RoomFacility.RoomFacilityResponse;
+import com.enigma.challengebookingroom.mapper.RoomFacilityMapper;
+import com.enigma.challengebookingroom.dto.RoomFacilityResponse;
 import com.enigma.challengebookingroom.entity.RoomFacility;
 import org.springframework.stereotype.Service;
 

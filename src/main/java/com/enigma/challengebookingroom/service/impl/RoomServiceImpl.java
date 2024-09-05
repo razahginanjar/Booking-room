@@ -1,9 +1,9 @@
-package com.enigma.challengebookingroom.Service.Impl;
+package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.Mapper.RoomMapper;
-import com.enigma.challengebookingroom.Service.RoomService;
+import com.enigma.challengebookingroom.mapper.RoomMapper;
+import com.enigma.challengebookingroom.service.RoomService;
 import com.enigma.challengebookingroom.dto.request.RoomRequest;
-import com.enigma.challengebookingroom.dto.response.Room.RoomResponse;
+import com.enigma.challengebookingroom.dto.response.RoomResponse;
 import com.enigma.challengebookingroom.entity.Room;
 import com.enigma.challengebookingroom.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
