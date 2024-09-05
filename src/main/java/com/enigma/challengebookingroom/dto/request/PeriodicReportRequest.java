@@ -8,11 +8,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PeriodicReportRequest implements Serializable {
     String reportId;

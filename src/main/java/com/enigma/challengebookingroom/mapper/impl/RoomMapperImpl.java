@@ -20,7 +20,7 @@ public class RoomMapperImpl implements RoomMapper {
                         roomFacilityMapper::toResponse
                 ).toList())
                 .roomType(room.getRoomType())
-                .vacancy(room.getIsAvailable())
+                .isAvailable(room.getIsAvailable())
                 .build();
     }
 }

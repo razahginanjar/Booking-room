@@ -32,6 +32,9 @@ public class ConstantMessage {
 
     public static final String UNREACHABLE = "Service Unreachable";
 
-    public static final String HIGH_MEMORY_USAGE = "High memory usage";
+    public static final String NOT_NULL = "Cannot be null";
 
+    public static final String NOT_EMPTY = "Cannot be empty";
+
+    public static final String NOT_BLANK = "Cannot be empty";
 }

@@ -1,13 +1,12 @@
 package com.enigma.challengebookingroom.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterRequest {
 }

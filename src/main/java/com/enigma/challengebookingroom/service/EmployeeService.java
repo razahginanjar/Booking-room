@@ -10,9 +10,10 @@ public interface EmployeeService {
     Employee getById(String id);
     Employee createAndGet(EmployeeRequest employee);
     Employee updateEmployee(EmployeeRequest employee);
-    void RemoveEmployee(String id);
+    void removeEmployee(String id);
     List<Employee> getAllEmployee();
     Employee getByUsername(String employeeName);
+
     EmployeeResponse getByIdResponse(String id);
     EmployeeResponse createAndGetResponse(EmployeeRequest employee);
     EmployeeResponse updateEmployeeResponse(EmployeeRequest employee);

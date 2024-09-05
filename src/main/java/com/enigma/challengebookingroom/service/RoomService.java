@@ -13,6 +13,7 @@ public interface RoomService {
     List<Room> getAll();
     List<Room> getAllByAvailable(Boolean isAvailable);
     void deleteRoom(String id);
+
     RoomResponse getByIdResponse(String id);
     RoomResponse createAndGetResponse(RoomRequest request);
     RoomResponse updateAndGetResponse(RoomRequest request);

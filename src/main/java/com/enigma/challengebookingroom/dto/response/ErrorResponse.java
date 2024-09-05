@@ -12,6 +12,6 @@ import lombok.Setter;
 public class ErrorResponse {
     private String message;
     private int status;
-    private long  timestamp;
+    private long timestamp;
 
 }

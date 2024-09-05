@@ -3,7 +3,7 @@ package com.enigma.challengebookingroom.service.impl;
 import com.enigma.challengebookingroom.mapper.RoomFacilityMapper;
 import com.enigma.challengebookingroom.service.RoomFacilityService;
 import com.enigma.challengebookingroom.dto.request.RoomFacilityRequest;
-import com.enigma.challengebookingroom.dto.RoomFacilityResponse;
+import com.enigma.challengebookingroom.dto.response.RoomFacilityResponse;
 import com.enigma.challengebookingroom.entity.RoomFacility;
 import com.enigma.challengebookingroom.repository.RoomFacilityRepository;
 import lombok.RequiredArgsConstructor;

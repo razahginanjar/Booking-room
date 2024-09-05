@@ -1,4 +1,4 @@
-package com.enigma.challengebookingroom.dto.request.Equipment;
+package com.enigma.challengebookingroom.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class EquipmentRequest {
-    private String equipmentName;
+public class RoomFacilityResponse {
+    private String roomFacilityName;
 }

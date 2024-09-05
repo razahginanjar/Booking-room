@@ -6,14 +6,10 @@ import lombok.*;
 
 import java.io.Serializable;
 
-
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EquipmentStatusRequest implements Serializable {
     String equipmentStatusId;
