@@ -10,5 +10,5 @@ import com.enigma.challengebookingroom.entity.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, String> {
-    Optional<Role> findAllByRole(ConstantRole role);
+    Optional<Role> findAllByConstantRole(ConstantRole role);
 }

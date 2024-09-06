@@ -1,25 +1,24 @@
 package com.enigma.challengebookingroom.dto.response;
 
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
-import com.enigma.challengebookingroom.entity.Employee;
-import com.enigma.challengebookingroom.entity.Equipment;
-import com.enigma.challengebookingroom.entity.Room;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReservationResponse {
-    private final String reservationId;
-    private final Employee employee;
-    private final Room room;
-    private final LocalDate reserveDate;
-    private final LocalDate startTime;
-    private final LocalDate endTime;
-    private final ConstantReservationStatus reservationStatus;
-    private final String reservationDescription;
-    private final List<Equipment> equipments;
+    private String reservationId;
+    private EmployeeResponse employee;
+    private RoomResponse room;
+    private LocalDate reserveDate;
+    private LocalDate startTime;
+    private LocalDate endTime;
+    private ConstantReservationStatus reservationStatus;
+    private String reservationDescription;
+    private List<EquipmentResponse> equipments;
 }

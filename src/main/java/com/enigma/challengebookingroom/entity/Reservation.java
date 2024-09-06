@@ -50,18 +50,21 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ConstantReservationStatus reservationStatus;
 
-    @Column(name = "reservation_description", nullable = false, updatable = false)
-    private String reservationDescription;
+    @Column(name = "reservation_description_by_user", updatable = false, nullable = false)
+    private String reservationDescriptionByUser;
+
+    @Column(name = "reservation_description_by_ga", updatable = false)
+    private String reservationDescriptionByGA;
 
     @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Equipment> equipments;
-
-    @PrePersist
-    protected void onCreate() {
-        this.reserveDate = LocalDate.now();
-        this.startTime = LocalDate.now().plusDays(1);
-        this.endTime = LocalDate.now().plusDays(1);
-    }
+//
+//    @PrePersist
+//    protected void onCreate() {
+//        this.reserveDate = LocalDate.now();
+//        this.startTime = LocalDate.now().plusDays(1);
+//        this.endTime = LocalDate.now().plusDays(1);
+//    }
 
 }

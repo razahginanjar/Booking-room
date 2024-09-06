@@ -6,6 +6,7 @@ import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.repository.EmployeeRepository;
+import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeMapper employeeMapper;
 
+    private final ValidationUtils validator;
+
     @Override
     public Employee getById(String id) {
         return employeeRepository.findById(id).orElseThrow(
@@ -30,6 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee createAndGet(EmployeeRequest employee) {
+        validator.validate(employee);
         Employee build = Employee.builder()
                 .department(employee.getDepartment())
                 .employeeName(employee.getEmployeeName())
@@ -42,6 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee updateEmployee(EmployeeRequest employee) {
+        validator.validate(employee);
         Employee byId = getById(employee.getEmployeeId());
         byId.setEmployeeName(employee.getEmployeeName());
         byId.setDepartment(employee.getDepartment());

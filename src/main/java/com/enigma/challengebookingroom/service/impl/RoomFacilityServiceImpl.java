@@ -6,6 +6,7 @@ import com.enigma.challengebookingroom.dto.request.RoomFacilityRequest;
 import com.enigma.challengebookingroom.dto.response.RoomFacilityResponse;
 import com.enigma.challengebookingroom.entity.RoomFacility;
 import com.enigma.challengebookingroom.repository.RoomFacilityRepository;
+import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,11 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
 
     private final RoomFacilityMapper roomFacilityMapper;
 
+    private final ValidationUtils validator;
+
     @Override
     public RoomFacility createAndGet(RoomFacilityRequest updateRoomFacility) {
+        validator.validate(updateRoomFacility);
         RoomFacility build = RoomFacility.builder()
                 .roomFacilityName(updateRoomFacility.getRoomFacilityName())
                 .build();
@@ -36,6 +40,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
 
     @Override
     public RoomFacility update(RoomFacilityRequest updateRoomFacility) {
+        validator.validate(updateRoomFacility);
         RoomFacility byId = getById(updateRoomFacility.getRoomFacilityId());
         byId.setRoomFacilityName(updateRoomFacility.getRoomFacilityName());
         return roomFacilityRepository.saveAndFlush(byId);
