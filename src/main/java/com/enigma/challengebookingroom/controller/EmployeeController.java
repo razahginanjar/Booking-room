@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(APIUrl.EMPLOYEE)
+@RequestMapping(path = APIUrl.EMPLOYEE)
 public class EmployeeController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);

@@ -11,6 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class RoomResponse {
+    private String roomId;
+
     private String roomType;
 
     private Integer roomCapacity;

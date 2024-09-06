@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 // nanti mungkin kalo udah jadi semua lebih baik semua mending di handle sama employee aja
 // soalnya user service cuma ngehandle masalah perakunan auth sama authorize
 
+// okee
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(APIUrl.USER)

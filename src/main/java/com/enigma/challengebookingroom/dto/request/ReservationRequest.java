@@ -39,7 +39,12 @@ public class ReservationRequest implements Serializable {
     @NotBlank(message = ConstantMessage.NOT_BLANK)
     @NotEmpty(message = ConstantMessage.NOT_EMPTY)
     @NotNull(message = ConstantMessage.NOT_NULL)
-    private String roomType;
+    private String roomId; // diganti id karena kita relasinya ke id room. kalo mau nampilinnya ntar bisa disetting di servicenya
 
-    private List<EquipmentRequest> equipmentRequests;
+    // tambahan buat ngecek dia employee yg mana
+    @NotBlank(message = ConstantMessage.NOT_BLANK)
+    private String employeeId;
+
+    // ini aku ganti jadi id karena dia tinggal ngambil data dr tablenya, gausah nambahin lagi dr request
+    private String equipmentRequestId;
 }

@@ -30,8 +30,9 @@ Table Reservation {
     reserveDate datetime
     startTime datetime
     endTime datetime
-    reservationStatus string [note: "Enum to reservation status"]
-    reservationDescription string
+    reservationStatus reservationStatus [note: "Enum to reservation status"]
+    descriptionByUser string
+    descriptionByAdmin string
 }
 
 Table Role {
@@ -58,6 +59,14 @@ Table User {
     password string
     role_id string [ref: > Role.roleId]
 }
+
+Enum reservationStatus {
+  "PENDING"
+  "APPROVED"
+  "DECLINED"
+  "CANCELLED"
+}
+
 
 Ref: Room.roomId <> RoomFacility.roomId
 
