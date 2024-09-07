@@ -20,7 +20,6 @@ Table Equipment {
     equipmentId string
     equipmentName string
     reservation_id string [ref: > Reservation.reservationId]
-    equipmentStatus string [note: "Enum to equipment status"]
 }
 
 Table Reservation {
@@ -44,13 +43,12 @@ Table Room {
     roomId string
     roomType string
     roomCapacity string
-    vacancy boolean
 }
 
 Table RoomFacility {
     roomFacilityId string
     roomFacilityName string
-    roomId string
+    roomId string [ref: <> Room.roomId]
 }
 
 Table User {
@@ -66,9 +64,6 @@ Enum reservationStatus {
   "DECLINED"
   "CANCELLED"
 }
-
-
-Ref: Room.roomId <> RoomFacility.roomId
 
 
 aku hapus beberapa table yg ga terlalu kepake kaya equipment status sama reservation status

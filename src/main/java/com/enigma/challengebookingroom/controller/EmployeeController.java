@@ -27,20 +27,22 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @PostMapping(
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
-    public ResponseEntity<CommonResponse<EmployeeResponse>> createEmployee(@Valid @RequestBody EmployeeRequest request) {
-        logger.debug("Request to create employee: {}", request);
-        EmployeeResponse create = employeeService.createAndGetResponse(request);
-        CommonResponse<EmployeeResponse> response = CommonResponse.<EmployeeResponse>builder()
-                .statusCode(HttpStatus.CREATED.value())
-                .message(HttpStatus.CREATED.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
-                .data(create)
-                .build();
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+//    kita bikinnya employee dari register
+//    jadi yg dibawah ga guna lagi hehe
+//    @PostMapping(
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            consumes = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    public ResponseEntity<CommonResponse<EmployeeResponse>> createEmployee(@Valid @RequestBody EmployeeRequest request) {
+//        logger.debug("Request to create employee: {}", request);
+//        EmployeeResponse create = employeeService.createAndGetResponse(request);
+//        CommonResponse<EmployeeResponse> response = CommonResponse.<EmployeeResponse>builder()
+//                .statusCode(HttpStatus.CREATED.value())
+//                .message(HttpStatus.CREATED.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+//                .data(create)
+//                .build();
+//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+//    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<Employee>> getAllRoom() {

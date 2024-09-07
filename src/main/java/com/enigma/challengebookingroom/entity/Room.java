@@ -27,14 +27,12 @@ public class Room {
     @Column(name = "capacity", nullable = false)
     private Integer roomCapacity;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "room", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<RoomFacility> roomFacilities;
 
 //    @Column(name = "isAvailable")
 //    @Enumerated(EnumType.STRING)
 //    private Boolean isAvailable;
-
-
 
 }

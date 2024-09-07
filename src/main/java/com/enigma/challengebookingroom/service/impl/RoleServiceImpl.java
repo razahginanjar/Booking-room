@@ -1,5 +1,6 @@
 package com.enigma.challengebookingroom.service.impl;
 
+import com.enigma.challengebookingroom.constant.ConstantRole;
 import com.enigma.challengebookingroom.service.RoleService;
 import com.enigma.challengebookingroom.dto.request.RoleRequest;
 import com.enigma.challengebookingroom.entity.Role;
@@ -51,5 +52,14 @@ public class RoleServiceImpl implements RoleService {
     public void delete(String id) {
         Role byId = getById(id);
         roleRepository.saveAndFlush(byId);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Role getOrSave(ConstantRole role) {
+        return roleRepository.findByConstantRole(role)
+                .orElseGet(() -> roleRepository.saveAndFlush(
+                        Role.builder().constantRole(role).build()
+                ));
     }
 }

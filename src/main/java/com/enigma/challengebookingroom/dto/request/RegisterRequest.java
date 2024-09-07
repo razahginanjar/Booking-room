@@ -9,4 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RegisterRequest {
+    private String employeeName;
+    private String department;
+    private String phoneNumber;
+    private String corporateEmail;
+    private String username;
+    private String password;
 }

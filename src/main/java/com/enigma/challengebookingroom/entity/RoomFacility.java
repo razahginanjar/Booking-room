@@ -24,8 +24,4 @@ public class RoomFacility {
 
     @Column(name = "room_facility")
     private String roomFacilityName;
-
-    @ManyToOne
-    @JoinColumn(name = "room_id")
-    private Room room;
 }

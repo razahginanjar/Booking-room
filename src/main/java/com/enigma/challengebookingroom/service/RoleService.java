@@ -1,5 +1,6 @@
 package com.enigma.challengebookingroom.service;
 
+import com.enigma.challengebookingroom.constant.ConstantRole;
 import com.enigma.challengebookingroom.dto.request.RoleRequest;
 import com.enigma.challengebookingroom.entity.Role;
 
@@ -8,4 +9,6 @@ public interface RoleService {
     Role getById(String id);
     Role update(RoleRequest request);
     void delete(String id);
+
+    Role getOrSave(ConstantRole role);
 }

@@ -47,7 +47,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponse create(ReservationRequest request) {
         validation.validate(request);
-        //Employee employee = employeeService.getById(request.getEmployeeId()); // menurutku ini mendingan pake bycontext aja
+        //Employee employee = employeeService.getById(request.getEmployeeId());
+        // menurutku ini mendingan pake bycontext aja
         //jadinya di request gak butuh employee id
         Employee employee = userServiceImpl.getByContext().getEmployee();
 
