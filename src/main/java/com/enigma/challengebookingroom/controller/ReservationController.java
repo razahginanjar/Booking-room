@@ -84,7 +84,7 @@ public class ReservationController {
 
     // update status by admin
     @PutMapping(
-//            path =
+            path ="/admin",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )

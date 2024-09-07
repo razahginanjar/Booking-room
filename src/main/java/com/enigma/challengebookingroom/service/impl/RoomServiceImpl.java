@@ -29,7 +29,7 @@ public class RoomServiceImpl implements RoomService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
         );
     }
-    @Transactional(rollbackFor = Exception.class)
+
     @Override
     public Room createAndGet(RoomRequest request) {
         validator.validate(request);

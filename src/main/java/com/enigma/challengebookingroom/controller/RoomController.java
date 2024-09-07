@@ -1,6 +1,7 @@
 package com.enigma.challengebookingroom.controller;
 
 import com.enigma.challengebookingroom.constant.APIUrl;
+import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.dto.request.RoomRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.RoomResponse;
@@ -36,12 +37,12 @@ public class RoomController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse<Room>> getAllRoom() {
+    public ResponseEntity<CommonResponse<List<Room>>> getAllRoom() {
         List<Room> roomList = roomService.getAll();
-        CommonResponse<Room> response = CommonResponse.<Room>builder()
+        CommonResponse<List<Room>> response = CommonResponse.<List<Room>>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(HttpStatus.OK.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
-                .data((Room) roomList)
+                .message(ConstantMessage.OK) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+                .data(roomList)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
