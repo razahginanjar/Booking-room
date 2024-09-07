@@ -1,17 +1,14 @@
 package com.enigma.challengebookingroom.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ErrorResponse {
     private String message;
     private int status;
     private long timestamp;
-
 }

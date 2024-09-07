@@ -46,5 +46,6 @@ public class ReservationRequest implements Serializable {
     private String employeeId;
 
     // ini aku ganti jadi id karena dia tinggal ngambil data dr tablenya, gausah nambahin lagi dr request
-    private String equipmentRequestId;
+    private List<EquipmentRequest> equipmentRequests;
+    //private String equipmentRequestId;
 }

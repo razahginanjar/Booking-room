@@ -9,5 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EquipmentRequest {
+    private String idEquipment;
     private String equipmentName;
 }

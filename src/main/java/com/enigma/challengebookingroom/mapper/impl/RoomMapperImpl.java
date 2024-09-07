@@ -22,7 +22,6 @@ public class RoomMapperImpl implements RoomMapper {
                         roomFacilityMapper::toResponse
                 ).toList())
                 .roomType(room.getRoomType())
-                .isAvailable(room.getIsAvailable())
                 .build();
     }
 }

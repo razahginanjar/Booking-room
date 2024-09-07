@@ -27,9 +27,9 @@ public class Equipment {
     @Column(name = "equipment_name", nullable = false, unique = true)
     private String equipmentName;
 
-    @Column(name = "status", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private ConstantEquipmentStatus equipmentStatus;
+//    @Column(name = "status", nullable = false)
+//    @Enumerated(EnumType.STRING)
+//    private ConstantEquipmentStatus equipmentStatus;
 
     @ManyToOne
     @JsonBackReference

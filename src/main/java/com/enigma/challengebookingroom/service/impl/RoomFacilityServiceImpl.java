@@ -10,6 +10,7 @@ import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -21,7 +22,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
     private final RoomFacilityMapper roomFacilityMapper;
 
     private final ValidationUtils validator;
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public RoomFacility createAndGet(RoomFacilityRequest updateRoomFacility) {
         validator.validate(updateRoomFacility);
@@ -31,13 +32,14 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         return roomFacilityRepository.saveAndFlush(build);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public RoomFacility getById(String id) {
         return roomFacilityRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Facility not found")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
         );
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public RoomFacility update(RoomFacilityRequest updateRoomFacility) {
         validator.validate(updateRoomFacility);
@@ -45,25 +47,26 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         byId.setRoomFacilityName(updateRoomFacility.getRoomFacilityName());
         return roomFacilityRepository.saveAndFlush(byId);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String id) {
         RoomFacility byId = getById(id);
         roomFacilityRepository.delete(byId);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public RoomFacilityResponse createAndGetResponse(RoomFacilityRequest updateRoomFacility) {
         RoomFacility andGet = createAndGet(updateRoomFacility);
         return roomFacilityMapper.toResponse(andGet);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public RoomFacilityResponse getByIdResponse(String id) {
         RoomFacility byId = getById(id);
         return roomFacilityMapper.toResponse(byId);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public RoomFacilityResponse updateResponse(RoomFacilityRequest updateRoomFacility) {
         RoomFacility update = update(updateRoomFacility);

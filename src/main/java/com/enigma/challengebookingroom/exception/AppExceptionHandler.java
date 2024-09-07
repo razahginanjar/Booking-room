@@ -1,6 +1,7 @@
 package com.enigma.challengebookingroom.exception;
 
 import java.io.IOException;
+import java.time.DateTimeException;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -87,4 +88,15 @@ public class AppExceptionHandler {
         
     }
 
+    @ExceptionHandler(DateTimeException.class)
+    public ResponseEntity<ErrorResponse> dateTimeException(DateTimeException exception)
+    {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                ErrorResponse.builder()
+                        .message(exception.getLocalizedMessage())
+                        .timestamp(System.currentTimeMillis())
+                        .status(HttpStatus.BAD_REQUEST.value())
+                        .build()
+        );
+    }
 }

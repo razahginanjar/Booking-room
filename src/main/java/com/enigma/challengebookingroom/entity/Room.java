@@ -1,17 +1,11 @@
 package com.enigma.challengebookingroom.entity;
 
-import java.util.List;
-
 import com.enigma.challengebookingroom.constant.ConstantTable;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+
+import java.util.List;
 
 @ToString
 @Getter
@@ -37,9 +31,9 @@ public class Room {
     @JsonManagedReference
     private List<RoomFacility> roomFacilities;
 
-    @Column(name = "isAvailable")
-    @Enumerated(EnumType.STRING)
-    private Boolean isAvailable;
+//    @Column(name = "isAvailable")
+//    @Enumerated(EnumType.STRING)
+//    private Boolean isAvailable;
 
 
 

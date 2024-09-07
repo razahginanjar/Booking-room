@@ -18,7 +18,4 @@ public class RoomResponse {
     private Integer roomCapacity;
 
     private List<RoomFacilityResponse> roomFacilities;
-
-    private Boolean isAvailable;
-
 }

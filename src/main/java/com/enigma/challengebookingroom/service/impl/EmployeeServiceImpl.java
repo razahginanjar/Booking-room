@@ -10,6 +10,7 @@ import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -24,13 +25,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final ValidationUtils validator;
 
+    @Transactional(readOnly = true)
     @Override
     public Employee getById(String id) {
         return employeeRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee is not found")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
         );
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Employee createAndGet(EmployeeRequest employee) {
         validator.validate(employee);
@@ -44,6 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.saveAndFlush(build);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Employee updateEmployee(EmployeeRequest employee) {
         validator.validate(employee);
@@ -55,36 +59,42 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.saveAndFlush(byId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void removeEmployee(String id) {
         Employee byId = getById(id);
         employeeRepository.delete(byId);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Employee> getAllEmployee() {
         return employeeRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Employee getByUsername(String employeeName) {
         return employeeRepository.findByEmployeeName(employeeName).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee is not found")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public EmployeeResponse getByIdResponse(String id) {
         Employee byId = getById(id);
         return employeeMapper.toResponse(byId);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public EmployeeResponse createAndGetResponse(EmployeeRequest employee) {
         Employee andGet = createAndGet(employee);
         return employeeMapper.toResponse(andGet);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public EmployeeResponse updateEmployeeResponse(EmployeeRequest employee) {
         Employee employee1 = updateEmployee(employee);

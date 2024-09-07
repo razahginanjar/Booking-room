@@ -18,4 +18,6 @@ public interface ReservationService {
     ReservationResponse update(UpdateReservationByUser reservation);
     ReservationResponse updateByAdmin(UpdateReservationRequestByAdmin reservation);
     // sengaja ga ku tambahin delete karena ini kan transaksi masa di delete?
+
+    List<Reservation> historyOfCustomer();
 }

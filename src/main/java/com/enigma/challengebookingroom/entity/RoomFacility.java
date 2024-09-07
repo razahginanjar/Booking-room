@@ -2,12 +2,7 @@ package com.enigma.challengebookingroom.entity;
 
 import com.enigma.challengebookingroom.constant.ConstantTable;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,4 +24,8 @@ public class RoomFacility {
 
     @Column(name = "room_facility")
     private String roomFacilityName;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
 }

@@ -37,4 +37,6 @@ public class ConstantMessage {
     public static final String NOT_EMPTY = "Cannot be empty";
 
     public static final String NOT_BLANK = "Cannot be empty";
+
+    public static final String ERROR_DATE = "Date cannot be in the past";
 }

@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RoomRepository extends JpaRepository<Room, String> {
-    List<Room> findAllByIsAvailable(Boolean isAvailable);
+ //   List<Room> findAllByIsAvailable(Boolean isAvailable);
 }

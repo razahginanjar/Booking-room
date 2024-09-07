@@ -11,7 +11,6 @@ public interface RoomService {
     Room createAndGet(RoomRequest request);
     Room updateAndGet(RoomRequest request);
     List<Room> getAll();
-    List<Room> getAllByAvailable(Boolean isAvailable);
     void deleteRoom(String id);
 
     RoomResponse getByIdResponse(String id);
