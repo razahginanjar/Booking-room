@@ -143,13 +143,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         Reservation saved = reservationRepository.saveAndFlush(reservation);
 
-        ///logic removed booking dia disini
-
-
-        if(Objects.nonNull(saved.getEquipments()))
-        {
-            ///logic booking untuk kembalian equipment pas di hari yang dipinjam ada atau tidak untuk pengembalian equipment
-        }
         return reservationMapper.toResponse(saved);
     }
 
@@ -161,12 +154,6 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setReservationStatus(request.getReservationStatus());
         reservation.setReservationDescriptionByGA(request.getActionReason());
         Reservation saved = reservationRepository.saveAndFlush(reservation);
-        if(saved.getReservationStatus().equals(ConstantReservationStatus.APPROVED))
-        {
-            //Logic booking disini untuk ketika approved untuk atur rooom
-
-            //logic dari booking untuk atur equipment
-        }
         return reservationMapper.toResponse(saved);
     }
 

@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.ResourceBundle;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,7 +44,7 @@ public class EmployeeController {
 //    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse<Employee>> getAllRoom() {
+    public ResponseEntity<CommonResponse<Employee>> getAllEmployee() {
 
         List<Employee> employees = employeeService.getAllEmployee();
         CommonResponse<Employee> response = CommonResponse.<Employee>builder()
@@ -60,7 +59,7 @@ public class EmployeeController {
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<EmployeeResponse>> getRoomById(@PathVariable String id) {
+    public ResponseEntity<CommonResponse<EmployeeResponse>> getEmployeeById(@PathVariable String id) {
         EmployeeResponse employeeById = employeeService.getByIdResponse(id);
         CommonResponse<EmployeeResponse> response = CommonResponse.<EmployeeResponse>builder()
                 .statusCode(HttpStatus.OK.value())
@@ -74,7 +73,7 @@ public class EmployeeController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<EmployeeResponse>> updateRoom(@Valid @RequestBody EmployeeRequest request) {
+    public ResponseEntity<CommonResponse<EmployeeResponse>> updateEmployee(@Valid @RequestBody EmployeeRequest request) {
         EmployeeResponse update = employeeService.updateEmployeeResponse(request);
         CommonResponse<EmployeeResponse> response = CommonResponse.<EmployeeResponse>builder()
                 .statusCode(HttpStatus.OK.value())
@@ -88,7 +87,7 @@ public class EmployeeController {
             path =APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<String>> deleteRoomById(@PathVariable String id) {
+    public ResponseEntity<CommonResponse<String>> deleteEmployeeById(@PathVariable String id) {
         employeeService.removeEmployee(id);
         CommonResponse<String> response = CommonResponse.<String>builder()
                 .statusCode(HttpStatus.OK.value())

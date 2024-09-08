@@ -84,9 +84,10 @@ public class AuthServiceImpl implements AuthService {
                 .phoneNumber(request.getPhoneNumber())
                 .corporateEmail(request.getCorporateEmail())
                 .build();
-        employeeService.createAndGetResponse(employee);
+        EmployeeResponse response = employeeService.createAndGetResponse(employee);
 
         EmployeeResponse employeeResponse = EmployeeResponse.builder()
+                .employeeId(response.getEmployeeId())
                 .employeeName(employee.getEmployeeName())
                 .department(employee.getDepartment())
                 .build();

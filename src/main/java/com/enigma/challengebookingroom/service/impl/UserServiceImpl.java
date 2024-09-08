@@ -18,7 +18,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
-    private final EmployeeService employeeService;
 
     @Transactional(readOnly = true)
     @Override

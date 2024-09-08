@@ -6,6 +6,7 @@ import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.repository.EmployeeRepository;
+import com.enigma.challengebookingroom.service.UserService;
 import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
-
     private final EmployeeRepository employeeRepository;
 
     private final EmployeeMapper employeeMapper;
@@ -40,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee build = Employee.builder()
                 .department(employee.getDepartment())
                 .employeeName(employee.getEmployeeName())
-//                .user()
+                .user(employee.getUserId())
                 .corporateEmail(employee.getCorporateEmail())
                 .phoneNumber(employee.getPhoneNumber())
                 .build();

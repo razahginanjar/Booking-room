@@ -70,7 +70,7 @@ public class ReservationController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<ReservationResponse>> updateRoom(
+    public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByUser(
             @RequestBody UpdateReservationByUser request
     ) {
         ReservationResponse update = reservationService.update(request);
@@ -88,7 +88,7 @@ public class ReservationController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<ReservationResponse>> updateRoom(
+    public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByAdmin(
             @RequestBody UpdateReservationRequestByAdmin request
     ) {
         ReservationResponse updatedByAdmin = reservationService.updateByAdmin(request);
