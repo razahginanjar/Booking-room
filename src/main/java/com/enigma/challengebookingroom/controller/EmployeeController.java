@@ -2,6 +2,7 @@ package com.enigma.challengebookingroom.controller;
 
 import com.enigma.challengebookingroom.constant.APIUrl;
 import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
+import com.enigma.challengebookingroom.dto.request.UpdateEmployeeRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
@@ -73,7 +74,7 @@ public class EmployeeController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<EmployeeResponse>> updateEmployee(@Valid @RequestBody EmployeeRequest request) {
+    public ResponseEntity<CommonResponse<EmployeeResponse>> updateEmployee(@Valid @RequestBody UpdateEmployeeRequest request) {
         EmployeeResponse update = employeeService.updateEmployeeResponse(request);
         CommonResponse<EmployeeResponse> response = CommonResponse.<EmployeeResponse>builder()
                 .statusCode(HttpStatus.OK.value())

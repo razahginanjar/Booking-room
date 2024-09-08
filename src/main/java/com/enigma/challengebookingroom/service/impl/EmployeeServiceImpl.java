@@ -1,5 +1,7 @@
 package com.enigma.challengebookingroom.service.impl;
 
+import com.enigma.challengebookingroom.dto.request.UpdateEmployeeRequest;
+import com.enigma.challengebookingroom.entity.User;
 import com.enigma.challengebookingroom.mapper.EmployeeMapper;
 import com.enigma.challengebookingroom.service.EmployeeService;
 import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
@@ -25,6 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final ValidationUtils validator;
 
+    private final UserService userService;
+
     @Transactional(readOnly = true)
     @Override
     public Employee getById(String id) {
@@ -37,10 +41,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee createAndGet(EmployeeRequest employee) {
         validator.validate(employee);
+        User user = userService.getById(employee.getUserId());
         Employee build = Employee.builder()
                 .department(employee.getDepartment())
                 .employeeName(employee.getEmployeeName())
-                .user(employee.getUserId())
+                .user(user)
                 .corporateEmail(employee.getCorporateEmail())
                 .phoneNumber(employee.getPhoneNumber())
                 .build();
@@ -49,7 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Employee updateEmployee(EmployeeRequest employee) {
+    public Employee updateEmployee(UpdateEmployeeRequest employee) {
         validator.validate(employee);
         Employee byId = getById(employee.getEmployeeId());
         byId.setEmployeeName(employee.getEmployeeName());
@@ -96,7 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public EmployeeResponse updateEmployeeResponse(EmployeeRequest employee) {
+    public EmployeeResponse updateEmployeeResponse(UpdateEmployeeRequest employee) {
         Employee employee1 = updateEmployee(employee);
         return employeeMapper.toResponse(employee1);
     }
