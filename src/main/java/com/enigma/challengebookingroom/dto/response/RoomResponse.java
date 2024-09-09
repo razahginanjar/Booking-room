@@ -12,10 +12,7 @@ import java.util.List;
 @Builder
 public class RoomResponse {
     private String roomId;
-
     private String roomType;
-
     private Integer roomCapacity;
-
     private List<RoomFacilityResponse> roomFacilities;
 }

@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class RoomFacilityResponse {
+    private String roomId;
     private String roomFacilityName;
 }

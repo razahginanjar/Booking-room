@@ -56,10 +56,9 @@ public class Reservation {
     @Column(name = "reservation_description_by_ga", updatable = false)
     private String reservationDescriptionByGA;
 
-    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Equipment> equipments;
-//
+
 //    @PrePersist
 //    protected void onCreate() {
 //        this.reserveDate = LocalDate.now();

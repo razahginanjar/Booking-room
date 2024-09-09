@@ -1,9 +1,6 @@
 package com.enigma.challengebookingroom.mapper.impl;
 
-import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
-import com.enigma.challengebookingroom.dto.response.EquipmentResponse;
-import com.enigma.challengebookingroom.dto.response.ReservationResponse;
-import com.enigma.challengebookingroom.dto.response.RoomResponse;
+import com.enigma.challengebookingroom.dto.response.*;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.entity.Equipment;
 import com.enigma.challengebookingroom.entity.Reservation;

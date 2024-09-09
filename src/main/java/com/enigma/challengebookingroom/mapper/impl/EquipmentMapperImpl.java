@@ -10,6 +10,7 @@ public class EquipmentMapperImpl implements EquipmentMapper {
     @Override
     public EquipmentResponse toResponse(Equipment equipment) {
         return EquipmentResponse.builder()
+                .equipmentId(equipment.getEquipmentId())
                 .equipmentName(equipment.getEquipmentName())
                 .build();
     }

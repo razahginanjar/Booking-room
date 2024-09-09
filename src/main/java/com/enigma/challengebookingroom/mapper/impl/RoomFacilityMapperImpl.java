@@ -11,6 +11,7 @@ public class RoomFacilityMapperImpl implements RoomFacilityMapper {
     @Override
     public RoomFacilityResponse toResponse(RoomFacility roomFacility) {
         return RoomFacilityResponse.builder()
+                .roomId(roomFacility.getRoomFacilityId())
                 .roomFacilityName(roomFacility.getRoomFacilityName())
                 .build();
     }

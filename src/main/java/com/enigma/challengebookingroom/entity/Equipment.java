@@ -1,8 +1,6 @@
 package com.enigma.challengebookingroom.entity;
 
-import com.enigma.challengebookingroom.constant.ConstantEquipmentStatus;
 import com.enigma.challengebookingroom.constant.ConstantTable;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,10 +28,10 @@ public class Equipment {
 //    @Column(name = "status", nullable = false)
 //    @Enumerated(EnumType.STRING)
 //    private ConstantEquipmentStatus equipmentStatus;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "reservation_id")
-    private Reservation reservation;
+//
+//    @ManyToOne
+//    @JsonBackReference
+//    @JoinColumn(name = "reservation_id")
+//    private Reservation reservation;
 
 }

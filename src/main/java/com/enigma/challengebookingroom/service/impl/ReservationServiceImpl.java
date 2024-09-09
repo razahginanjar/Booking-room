@@ -2,9 +2,11 @@ package com.enigma.challengebookingroom.service.impl;
 
 import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
+import com.enigma.challengebookingroom.dto.request.InsertDateRequest;
 import com.enigma.challengebookingroom.dto.request.ReservationRequest;
 import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
 import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
+import com.enigma.challengebookingroom.dto.response.GetReservationStatusResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.entity.Equipment;
@@ -27,6 +29,7 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +61,16 @@ public class ReservationServiceImpl implements ReservationService {
             throw new DateTimeException(ConstantMessage.ERROR_DATE);
         }
 
-        //need checker from booking :))) buat ruangah ditanggal sdari request
+        // cek ruangan avail atau ga
+        List<Reservation> conflictingReservations = reservationRepository.findAvailRoom(
+                request.getRoomId(),
+                converter.convertToLocalDate(request.getStartTime()),
+                converter.convertToLocalDate(request.getEndTime())
+        );
+
+        if (!conflictingReservations.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Room is not available");
+        }
 
 
         Reservation reservation = Reservation.builder()
@@ -154,6 +166,14 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setReservationDescriptionByGA(request.getActionReason());
         Reservation saved = reservationRepository.saveAndFlush(reservation);
         return reservationMapper.toResponse(saved);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<GetReservationStatusResponse> getStatusReservations(InsertDateRequest request) {
+        validation.validate(request);
+        LocalDate date = converter.convertToLocalDate(request.getDate());
+        return reservationRepository.findStatusReservation(date);
     }
 
     @Transactional(readOnly = true)

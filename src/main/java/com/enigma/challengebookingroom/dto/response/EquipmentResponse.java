@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class EquipmentResponse {
+    private String equipmentId;
     private String equipmentName;
 }
