@@ -3,8 +3,8 @@ package com.enigma.challengebookingroom.service.impl;
 import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import com.enigma.challengebookingroom.dto.request.ReservationRequest;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationByUser;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationRequestByAdmin;
+import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
+import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.entity.Equipment;
@@ -27,7 +27,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -117,7 +116,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ReservationResponse update(UpdateReservationByUser request) {
+    public ReservationResponse update(UpdateReservationByAdmin request) {
         validation.validate(request);
         Reservation reservation = getReservationById(request.getIdReservation());
         Employee employee = userServiceImpl.getByContext().getEmployee();
@@ -148,7 +147,7 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ReservationResponse updateByAdmin(UpdateReservationRequestByAdmin request) {
+    public ReservationResponse updateByAdmin(UpdateReservationStatusByAdmin request) {
         Reservation reservation = getReservationById(request.getIdReservation());
         validation.validate(request);
         reservation.setReservationStatus(request.getReservationStatus());

@@ -3,8 +3,8 @@ package com.enigma.challengebookingroom.controller;
 import com.enigma.challengebookingroom.constant.APIUrl;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import com.enigma.challengebookingroom.dto.request.ReservationRequest;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationByUser;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationRequestByAdmin;
+import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
+import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.service.ReservationService;
@@ -65,13 +65,13 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // update by user
+    // update reservation data
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByUser(
-            @RequestBody UpdateReservationByUser request
+            @RequestBody UpdateReservationByAdmin request
     ) {
         ReservationResponse update = reservationService.update(request);
         CommonResponse<ReservationResponse> response = CommonResponse.<ReservationResponse>builder()
@@ -82,14 +82,14 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // update status by admin
+    // update status
     @PutMapping(
-            path ="/admin",
+            path =APIUrl.PATH_ADMIN,
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByAdmin(
-            @RequestBody UpdateReservationRequestByAdmin request
+            @RequestBody UpdateReservationStatusByAdmin request
     ) {
         ReservationResponse updatedByAdmin = reservationService.updateByAdmin(request);
         CommonResponse<ReservationResponse> response = CommonResponse.<ReservationResponse>builder()
@@ -99,4 +99,8 @@ public class ReservationController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    // patch
+
+    // controller buat get avail room atau equipment disini aja
 }

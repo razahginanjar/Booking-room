@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EquipmentServiceImpl implements EquipmentService {
@@ -61,6 +63,11 @@ public class EquipmentServiceImpl implements EquipmentService {
     public EquipmentResponse createResponse(EquipmentRequest equipmentRequest) {
         Equipment equipment = create(equipmentRequest);
         return equipmentMapper.toResponse(equipment);
+    }
+
+    @Override
+    public List<EquipmentResponse> getAll() {
+        return equipmentRepository.findAll().stream().map(equipmentMapper::toResponse).toList();
     }
 
     @Transactional(readOnly = true)
