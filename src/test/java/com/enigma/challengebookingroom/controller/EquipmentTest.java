@@ -1,6 +1,6 @@
 package com.enigma.challengebookingroom.controller;
 
-import com.enigma.challengebookingroom.repository.ReservationRepository;
+import com.enigma.challengebookingroom.repository.EquipmentRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class ReservationTest {
-
+public class EquipmentTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -22,12 +21,12 @@ public class ReservationTest {
     ObjectMapper objectMapper;
 
     @Autowired
-    ReservationRepository reservationRepository;
+    EquipmentRepository equipmentRepository;
 
     @BeforeEach
     void setUp()
     {
-        reservationRepository.deleteAll();
+        equipmentRepository.deleteAll();
     }
 
     @Test
@@ -55,52 +54,32 @@ public class ReservationTest {
     }
 
     @Test
-    void getAllPerStatus()
+    void getAllTest()
     {
 
     }
 
     @Test
-    void getPerCustomer()
+    void updateSuccess()
     {
 
     }
 
     @Test
-    void updateStatusCancelSuccess()
+    void updateFailedRequestNull()
     {
 
     }
 
     @Test
-    void updateStatusCancelFailed()
+    void deleteSuccess()
     {
 
     }
 
     @Test
-    void updateStatusAcceptSuccess()
+    void deleteFailedNotFound()
     {
 
     }
-
-    @Test
-    void updateStatusAcceptFailed()
-    {
-
-    }
-
-    @Test
-    void updateStatusDeclineSuccess()
-    {
-
-    }
-
-    @Test
-    void updateStatusDeclineFailed()
-    {
-
-    }
-
-
 }

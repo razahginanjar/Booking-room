@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.DateTimeException;
 import java.util.stream.Collectors;
 
+import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -29,35 +30,62 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex) {
+    public ResponseEntity<CommonResponse<String>> handleEntityNotFoundException(EntityNotFoundException ex) {
         logger.error(ConstantMessage.NOT_FOUND, ex);
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                        CommonResponse.<String>builder()
+                                .data(ConstantMessage.NOT_FOUND)
+                                .statusCode(HttpStatus.NOT_FOUND.value())
+                                .message(ex.getLocalizedMessage())
+                                .build()
+                );
     }
 
     @ExceptionHandler(IOException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleIOException(IOException ex) {
+    public ResponseEntity<CommonResponse<String>> handleIOException(IOException ex) {
         logger.error(ConstantMessage.BAD_REQUEST, ex);
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        CommonResponse.<String>builder()
+                                .data(ConstantMessage.BAD_REQUEST)
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .message(ex.getLocalizedMessage())
+                                .build()
+                );
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+    public ResponseEntity<CommonResponse<String>>  handleIllegalArgumentException(IllegalArgumentException ex) {
         logger.error(ConstantMessage.BAD_REQUEST, ex);
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        CommonResponse.<String>builder()
+                                .data(ConstantMessage.BAD_REQUEST)
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .message(ex.getLocalizedMessage())
+                                .build()
+                );
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handleResponseStatusException(ResponseStatusException ex) {
-        logger.error(ConstantMessage.BAD_REQUEST, ex);
-        return new ResponseEntity<>(ex.getReason(), ex.getStatusCode());
+    public ResponseEntity<CommonResponse<String>> handleResponseStatusException(ResponseStatusException ex) {
+        logger.error(ex.getLocalizedMessage(), ex);
+        return ResponseEntity.status(ex.getStatusCode())
+                .body(
+                        CommonResponse.<String>builder()
+                                .data(ex.getLocalizedMessage())
+                                .statusCode(ex.getStatusCode().value())
+                                .message("Error {}:")
+                                .build()
+                );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<CommonResponse<ErrorResponse>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         logger.error(ConstantMessage.BAD_REQUEST, ex);
 
         String errorMessage = ex.getBindingResult().getAllErrors().stream()
@@ -69,35 +97,56 @@ public class AppExceptionHandler {
         errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
         errorResponse.setTimestamp(System.currentTimeMillis());
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        CommonResponse.<ErrorResponse>builder()
+                                .data(errorResponse)
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .message(ex.getLocalizedMessage())
+                                .build()
+                );
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<String> handleGenericException(Exception ex) {
+    public ResponseEntity<CommonResponse<String>> handleGenericException(Exception ex) {
         logger.error(ConstantMessage.INTERNAL_SERVER_ERROR, ex);
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(
+                        CommonResponse.<String>builder()
+                                .data(ConstantMessage.INTERNAL_SERVER_ERROR)
+                                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                                .message(ex.getLocalizedMessage())
+                                .build()
+                );
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
+    public ResponseEntity<CommonResponse<ErrorResponse>> handleAccessDeniedException(AccessDeniedException ex) {
         ErrorResponse errorResponse = new ErrorResponse(ConstantMessage.FORBIDDEN + ex.getMessage(),
                 HttpStatus.FORBIDDEN.value(),
                 System.currentTimeMillis()
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
-        
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(
+                        CommonResponse.<ErrorResponse>builder()
+                                .data(errorResponse)
+                                .statusCode(HttpStatus.FORBIDDEN.value())
+                                .message(ex.getLocalizedMessage())
+                                .build()
+                );
     }
 
     @ExceptionHandler(DateTimeException.class)
-    public ResponseEntity<ErrorResponse> dateTimeException(DateTimeException exception)
+    public ResponseEntity<CommonResponse<String>> dateTimeException(DateTimeException exception)
     {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                ErrorResponse.builder()
-                        .message(exception.getLocalizedMessage())
-                        .timestamp(System.currentTimeMillis())
-                        .status(HttpStatus.BAD_REQUEST.value())
-                        .build()
-        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(
+                        CommonResponse.<String>builder()
+                                .data(ConstantMessage.BAD_REQUEST)
+                                .statusCode(HttpStatus.BAD_REQUEST.value())
+                                .message(exception.getLocalizedMessage())
+                                .build()
+                );
     }
 }

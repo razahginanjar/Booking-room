@@ -1,6 +1,7 @@
 package com.enigma.challengebookingroom.controller;
 
-import com.enigma.challengebookingroom.repository.ReservationRepository;
+import com.enigma.challengebookingroom.repository.EmployeeRepository;
+import com.enigma.challengebookingroom.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Slf4j
-public class ReservationTest {
+public class UserAndEmployeeTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -22,26 +23,45 @@ public class ReservationTest {
     ObjectMapper objectMapper;
 
     @Autowired
-    ReservationRepository reservationRepository;
+    UserRepository userRepository;
+
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @BeforeEach
     void setUp()
     {
-        reservationRepository.deleteAll();
+        userRepository.deleteAll();
+        employeeRepository.deleteAll();
     }
 
+    //user or auth request
     @Test
-    void createSuccess()
+    void RegisterSuccessTest()
+    {
+
+    }
+
+
+    @Test
+    void RegisterFailedNullRequestTest()
     {
 
     }
 
     @Test
-    void createFailedNullRequest()
+    void LoginSuccessTest()
     {
 
     }
 
+    @Test
+    void LoginFailedTest()
+    {
+
+    }
+
+    //employee test
     @Test
     void getByIdSuccess()
     {
@@ -55,52 +75,32 @@ public class ReservationTest {
     }
 
     @Test
-    void getAllPerStatus()
+    void getAllTest()
     {
 
     }
 
     @Test
-    void getPerCustomer()
+    void updateSuccess()
     {
 
     }
 
     @Test
-    void updateStatusCancelSuccess()
+    void updateFailedRequestNull()
     {
 
     }
 
     @Test
-    void updateStatusCancelFailed()
+    void deleteSuccess()
     {
 
     }
 
     @Test
-    void updateStatusAcceptSuccess()
+    void deleteFailedNotFound()
     {
 
     }
-
-    @Test
-    void updateStatusAcceptFailed()
-    {
-
-    }
-
-    @Test
-    void updateStatusDeclineSuccess()
-    {
-
-    }
-
-    @Test
-    void updateStatusDeclineFailed()
-    {
-
-    }
-
-
 }
