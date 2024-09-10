@@ -14,3 +14,4 @@ public class RoomFacilityRequest implements Serializable {
     String roomFacilityId;
     String roomFacilityName;
 }
+
