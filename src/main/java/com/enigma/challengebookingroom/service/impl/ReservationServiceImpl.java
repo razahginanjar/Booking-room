@@ -203,9 +203,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Reservation> historyOfCustomer() {
+    public List<ReservationResponse> historyOfCustomer() {
         User user = userServiceImpl.getByContext();
-        return reservationRepository.findAllByEmployee(user.getEmployee());
+        List<Reservation> list = reservationRepository.findAllByEmployee(user.getEmployee());
+        return list.stream().map(reservationMapper::toResponse).toList();
     }
 
     @Override

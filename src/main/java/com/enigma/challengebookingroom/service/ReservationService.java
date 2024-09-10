@@ -24,6 +24,6 @@ public interface ReservationService {
     ReservationResponse updateStatus(String id, ConstantReservationStatus status);
 
     List<GetReservationStatusResponse> getStatusReservations(InsertDateRequest date);
-    List<Reservation> historyOfCustomer();
+    List<ReservationResponse> historyOfCustomer();
     List<Reservation> getAll();
 }

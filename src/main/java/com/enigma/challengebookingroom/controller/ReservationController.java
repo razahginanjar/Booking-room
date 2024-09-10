@@ -189,4 +189,15 @@ public class ReservationController {
     public String success() {
         return "<html><body><h1>Success</h1><p>Your response has been recorded. Thank you!</p></body></html>";
     }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse<List<ReservationResponse>>> getAllByEmployee() {
+        List<ReservationResponse> list = reservationService.historyOfCustomer();
+        CommonResponse<List<ReservationResponse>> response = CommonResponse.<List<ReservationResponse>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message(HttpStatus.OK.getReasonPhrase())
+                .data((list))
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }
