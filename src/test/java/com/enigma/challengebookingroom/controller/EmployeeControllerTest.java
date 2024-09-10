@@ -24,6 +24,7 @@ import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.service.EmployeeService;
+import com.enigma.challengebookingroom.service.UserService;
 
 class EmployeeControllerTest {
 
@@ -34,6 +35,9 @@ class EmployeeControllerTest {
 
     @InjectMocks
     private EmployeeController employeeController;
+
+    @Mock
+    private UserService userService;
 
     @BeforeEach
     void setUp() {
@@ -99,15 +103,15 @@ class EmployeeControllerTest {
     void testDeleteEmployeeById() {
         // Arrange
         String employeeId = "123";
-        doNothing().when(employeeService).removeEmployee(employeeId);
+        doNothing().when(userService).remove(employeeId);
 
         // Act
         ResponseEntity<CommonResponse<String>> responseEntity = employeeController.deleteEmployeeById(employeeId);
 
         // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Removed employee with id: " + employeeId, responseEntity.getBody().getMessage());
-        verify(employeeService, times(1)).removeEmployee(employeeId);
+        assertEquals("Removed user with id: " + employeeId, responseEntity.getBody().getMessage());
+        verify(userService, times(1)).remove(employeeId);
         logger.info("Test passed: testDeleteEmployeeById");
     }
 }
