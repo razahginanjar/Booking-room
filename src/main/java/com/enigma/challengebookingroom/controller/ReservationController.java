@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,6 +61,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<ReservationResponse>>> getAllReservations(
             @RequestParam(name = "status") ConstantReservationStatus status
@@ -73,6 +75,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -123,6 +126,7 @@ public class ReservationController {
 //    }
 
     // patch mapping buat endpoint mail sender
+    @PreAuthorize("hasRole('GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID
     )
@@ -167,6 +171,7 @@ public class ReservationController {
     }
 
     // download csv
+    @PreAuthorize("hasRole('GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_DOWNLOAD,
             produces = MediaType.APPLICATION_JSON_VALUE

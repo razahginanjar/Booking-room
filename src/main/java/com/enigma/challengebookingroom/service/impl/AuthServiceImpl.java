@@ -52,14 +52,14 @@ public class AuthServiceImpl implements AuthService {
         Optional<User> userSuperAdmin = userRepository.findByUsername(superAdminUsername);
         if (userSuperAdmin.isPresent()) return;
 
-        Role admin = roleService.getOrSave(ConstantRole.ADMINISTRATOR);
-        Role supervisor = roleService.getOrSave(ConstantRole.SUPERVISOR);
-        Role user = roleService.getOrSave(ConstantRole.USER);
+        Role admin = roleService.getOrSave(ConstantRole.ROLE_ADMINISTRATOR);
+        Role ga = roleService.getOrSave(ConstantRole.ROLE_GENERAL_AFFAIR);
+        Role user = roleService.getOrSave(ConstantRole.ROLE_USER);
 
         User account = User.builder()
                 .username(superAdminUsername)
                 .password(passwordEncoder.encode(superAdminPassword))
-                .roles(List.of(admin, supervisor, user))
+                .roles(List.of(admin, ga, user))
                 .build();
         userRepository.save(account);
     }
@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public RegisterResponse register(RegisterRequest request) {
         validation.validate(request);
-        Role role = roleService.getOrSave(ConstantRole.USER);
+        Role role = roleService.getOrSave(ConstantRole.ROLE_USER);
         String hashPassword = passwordEncoder.encode(request.getPassword());
 
         EmployeeRequest employee = EmployeeRequest.builder()

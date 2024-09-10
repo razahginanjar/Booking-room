@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 // aku bikin ini buat jaga2
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class RoomFacilityController {
     private final RoomFacilityService roomFacilityService;
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -35,6 +37,7 @@ public class RoomFacilityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -51,6 +54,7 @@ public class RoomFacilityController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -67,6 +71,7 @@ public class RoomFacilityController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE

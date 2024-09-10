@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class EquipmentController {
     private final EquipmentService equipmentService;
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -47,6 +49,7 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -61,6 +64,7 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -77,6 +81,7 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
