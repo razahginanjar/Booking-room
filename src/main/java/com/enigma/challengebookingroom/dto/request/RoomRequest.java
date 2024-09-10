@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -15,5 +16,5 @@ public class RoomRequest implements Serializable {
     String roomId;
     String roomType;
     Integer roomCapacity;
-    private Boolean isAvailable;
+    List<String> idFacilities;
 }

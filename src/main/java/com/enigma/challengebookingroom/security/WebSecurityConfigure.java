@@ -1,5 +1,6 @@
 package com.enigma.challengebookingroom.security;
 
+import com.enigma.challengebookingroom.constant.APIUrl;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +40,10 @@ public class WebSecurityConfigure {
                             authorizationManagerRequestMatcherRegistry
                                     .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                                     .requestMatchers("/api/v1/auth/**").permitAll()
-                                    .requestMatchers("/api/**").permitAll() //bisa dipakai untuk test kalo semisal ada permit test controller harus login
+                                    .requestMatchers(APIUrl.RESERVATION+APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID).permitAll()
+                                    .requestMatchers(APIUrl.RESERVATION+APIUrl.SUCCESS).permitAll()
+                                    .requestMatchers(APIUrl.RESERVATION+APIUrl.ALREADY_CLICK).permitAll()
+                                    //.requestMatchers("/api/**").permitAll() //bisa dipakai untuk test kalo semisal ada permit test controller harus login
                                     .anyRequest().authenticated();
                         }
                 )

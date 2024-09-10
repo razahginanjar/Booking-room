@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoomMapper roomMapper;
     private final ValidationUtils validator;
+    private final RoomFacilityServiceImpl roomFacilityServiceImpl;
 
     @Transactional(readOnly = true)
     @Override
@@ -37,6 +39,12 @@ public class RoomServiceImpl implements RoomService {
                 .roomCapacity(request.getRoomCapacity())
                 .roomType(request.getRoomType())
                 .build();
+        if(Objects.nonNull(request.getIdFacilities()))
+        {
+            room.setRoomFacilities(request.getIdFacilities().stream().map(
+                    roomFacilityServiceImpl::getById
+            ).toList());
+        }
         return roomRepository.saveAndFlush(room);
     }
     @Transactional(rollbackFor = Exception.class)

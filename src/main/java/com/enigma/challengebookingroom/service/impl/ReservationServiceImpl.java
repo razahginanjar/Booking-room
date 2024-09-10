@@ -87,16 +87,21 @@ public class ReservationServiceImpl implements ReservationService {
             reservation.setEquipments(list);
         }
         Reservation saved = reservationRepository.saveAndFlush(reservation);
+
         MailSenderRequest mailSenderRequest = MailSenderRequest.builder()
-                .equipment(saved.getEquipments().stream().map(
-                        Equipment::getEquipmentName
-                ).toList())
                 .startDate(request.getStartTime())
                 .endDate(request.getEndTime())
                 .idReservation(saved.getReservationId())
                 .roomType(saved.getRoom().getRoomType())
-                .employeeName(saved.getEmployee().getEmployeeName())
+                .employeeName(employee.getEmployeeName())
                 .build();
+
+        if(Objects.nonNull(saved.getEquipments()))
+        {
+            mailSenderRequest.setEquipment(saved.getEquipments().stream().map(
+                    Equipment::getEquipmentName
+            ).toList());
+        }
         mailSenderService.create(mailSenderRequest);
         return reservationMapper.toResponse(saved);
     }
@@ -189,7 +194,11 @@ public class ReservationServiceImpl implements ReservationService {
     public List<GetReservationStatusResponse> getStatusReservations(InsertDateRequest request) {
         validation.validate(request);
         LocalDate date = converter.convertToLocalDate(request.getDate());
-        return reservationRepository.findStatusReservation(date);
+        List<Reservation> statusReservation = reservationRepository.findStatusReservation(date);
+//        System.out.println(statusReservation.get(0));
+        return statusReservation.stream().map(
+                reservationMapper::getResponseStatus
+        ).toList();
     }
 
     @Transactional(readOnly = true)
@@ -201,6 +210,6 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getAll() {
-        return List.of();
+        return reservationRepository.findAll();
     }
 }

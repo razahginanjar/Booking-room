@@ -12,8 +12,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
     public EmployeeResponse toResponse(Employee employee) {
         return EmployeeResponse.builder()
                 .employeeId(employee.getEmployeeId())
-                .department(employee.getEmployeeName())
-                .employeeName(employee.getDepartment())
+                .department(employee.getDepartment())
+                .employeeName(employee.getEmployeeName())
                 .build();
     }
 }

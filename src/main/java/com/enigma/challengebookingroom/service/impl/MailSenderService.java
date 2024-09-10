@@ -64,18 +64,18 @@ public class MailSenderService {
                                 .put(Emailv31.Message.TEMPLATEID, 6271822)
                                 .put(Emailv31.Message.TEMPLATELANGUAGE, true)
                                 .put(Emailv31.Message.VARIABLES, Map.of("employee_name", mailSenderRequest.getEmployeeName(),
-                                        "room", mailSenderRequest.getRoomType(),
+                                        "room_type", mailSenderRequest.getRoomType(),
                                         "start_date", mailSenderRequest.getStartDate(),
                                         "end_date", mailSenderRequest.getEndDate(),
-                                        "url_accept", "http://localhost:8081"+ APIUrl.PATH_STATUS +mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.APPROVED,
-                                "url_decline", "http://localhost:8081"+ APIUrl.PATH_STATUS +mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.DECLINED))
+                                        "url_accept", "http://localhost:8081"+ APIUrl.RESERVATION+APIUrl.PATH_STATUS +"/"+mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.APPROVED,
+                                "url_decline", "http://localhost:8081"+ APIUrl.RESERVATION+APIUrl.PATH_STATUS +"/"+mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.DECLINED))
                                 .put(Emailv31.Message.SUBJECT, "Booking Request!")
 
                         ));
 
-//        response = client.post(request);
-////        System.out.println(response.getStatus());
-////        System.out.println(response.getData());
+        response = client.post(request);
+        System.out.println(response.getStatus());
+        System.out.println(response.getData());
         return null;
     }
 }

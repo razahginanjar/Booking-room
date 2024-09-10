@@ -12,6 +12,8 @@ import com.enigma.challengebookingroom.mapper.RoomMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class ReservationMapperImpl implements ReservationMapper {
@@ -33,7 +35,7 @@ public class ReservationMapperImpl implements ReservationMapper {
 
     @Override
     public ReservationResponse toResponse(Reservation reservation) {
-        return ReservationResponse.builder()
+        ReservationResponse build = ReservationResponse.builder()
                 .reservationId(reservation.getReservationId())
                 .employee(mapToEmployeeResponse(reservation.getEmployee()))
                 .room(mapToRoomResponse(reservation.getRoom()))
@@ -42,9 +44,32 @@ public class ReservationMapperImpl implements ReservationMapper {
                 .endTime(reservation.getEndTime())
                 .reservationStatus(reservation.getReservationStatus())
                 .reservationDescription(reservation.getReservationDescription())
-                .equipments(reservation.getEquipments().stream()
-                        .map(this::mapToEquipmentResponse)
-                        .toList())
                 .build();
+        if(Objects.nonNull(reservation.getEquipments()))
+         {
+             build.setEquipments(reservation.getEquipments().stream()
+                     .map(this::mapToEquipmentResponse)
+                     .toList());
+         }
+
+         return build;
+    }
+
+    @Override
+    public GetReservationStatusResponse getResponseStatus(Reservation reservation) {
+        GetReservationStatusResponse build = GetReservationStatusResponse.builder()
+                .reservationId(reservation.getReservationId())
+                .employee(reservation.getEmployee().getEmployeeName())
+                .room(reservation.getRoom().getRoomType())
+                .startDate(reservation.getStartTime())
+                .endDate(reservation.getEndTime())
+                .build();
+        if(Objects.nonNull(reservation.getEquipments()))
+        {
+            build.setEquipments(reservation.getEquipments().stream()
+                    .map(Equipment::getEquipmentName)
+                    .toList());
+        }
+        return build;
     }
 }

@@ -9,4 +9,5 @@ import com.enigma.challengebookingroom.entity.Room;
 
 public interface ReservationMapper {
     ReservationResponse toResponse(Reservation reservation);
+    GetReservationStatusResponse getResponseStatus(Reservation reservation);
 }

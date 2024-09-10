@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Component
 @RequiredArgsConstructor
 public class RoomMapperImpl implements RoomMapper {
@@ -15,13 +17,17 @@ public class RoomMapperImpl implements RoomMapper {
 
     @Override
     public RoomResponse toResponse(Room room) {
-        return RoomResponse.builder()
+        RoomResponse build = RoomResponse.builder()
                 .roomId(room.getRoomId())
                 .roomCapacity(room.getRoomCapacity())
-                .roomFacilities(room.getRoomFacilities().stream().map(
-                        roomFacilityMapper::toResponse
-                ).toList())
                 .roomType(room.getRoomType())
                 .build();
+        if(Objects.nonNull(room.getRoomFacilities() ))
+        {
+            build.setRoomFacilities(room.getRoomFacilities().stream().map(
+                    roomFacilityMapper::toResponse
+            ).toList());
+        }
+        return build;
     }
 }

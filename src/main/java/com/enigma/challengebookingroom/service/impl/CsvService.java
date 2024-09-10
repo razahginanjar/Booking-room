@@ -24,7 +24,7 @@ public class CsvService {
     private final ReservationService reservationService;
 
     public void Download(HttpServletResponse response) throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
-        String filename = "users.csv";
+        String filename = "data.csv";
 
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
