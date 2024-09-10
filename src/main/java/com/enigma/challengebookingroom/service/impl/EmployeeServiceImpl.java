@@ -27,8 +27,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final ValidationUtils validator;
 
-    private final UserService userService;
-
     @Transactional(readOnly = true)
     @Override
     public Employee getById(String id) {

@@ -61,7 +61,7 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping(
+    @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
