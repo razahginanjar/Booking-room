@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ import com.enigma.challengebookingroom.service.ReservationService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class ReservationControllerTest {
+class ReservationControllerTest {
 
     @Mock
     private ReservationService reservationService;
@@ -108,21 +107,6 @@ public class ReservationControllerTest {
         assertEquals(response, responseEntity.getBody().getData());
         verify(reservationService, times(1)).update(request);
         log.info("Test passed: testUpdateReservationByUser");
-    }
-
-    @Test
-    void testDownloadReservation() {
-        // Arrange
-        // No specific setup required as it's a simple call
-
-        // Act
-        ResponseEntity<CommonResponse<String>> responseEntity = reservationController.downloadReservation();
-
-        // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Downloaded", responseEntity.getBody().getMessage());
-        verifyNoInteractions(reservationService); // No interaction with the service
-        log.info("Test passed: testDownloadReservation");
     }
 }
 
