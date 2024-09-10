@@ -27,7 +27,7 @@ public class Room {
     @Column(name = "capacity", nullable = false)
     private Integer roomCapacity;
 
-    @ManyToMany(mappedBy = "room", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<RoomFacility> roomFacilities;
 

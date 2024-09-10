@@ -27,7 +27,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
             "WHERE :date BETWEEN res.startTime AND res.endTime")
     List<GetReservationStatusResponse> findStatusReservation(@Param("date") LocalDate date);
 
-    @Query("SELECT res FROM Reservation res WHERE res.room.roomId = :id " +
+    @Query(value = "SELECT res FROM Reservation res WHERE res.room.roomId = :id " +
             "AND ((:start BETWEEN res.startTime AND res.endTime) " +
             "OR (:end BETWEEN res.startTime AND res.endTime) " +
             "OR (res.startTime BETWEEN :start AND :end) " +
@@ -37,4 +37,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
             @Param("start") LocalDate start,
             @Param("end") LocalDate end);
 
+    @Query(value = "UPDATE Reservation res SET res.reservationStatus = :status WHERE res.reservationId = :id")
+    void updateReservationStatus( @Param("id") String id, @Param("status") ConstantReservationStatus status);
 }

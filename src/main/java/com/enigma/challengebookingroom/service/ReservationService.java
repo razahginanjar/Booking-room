@@ -18,8 +18,9 @@ public interface ReservationService {
     ReservationResponse getById(String id);
     Reservation getReservationById(String id);
     ReservationResponse update(UpdateReservationByAdmin reservation);
-    ReservationResponse updateByAdmin(UpdateReservationStatusByAdmin reservation);
+//    ReservationResponse updateByAdmin(UpdateReservationStatusByAdmin reservation);
     // sengaja ga ku tambahin delete karena ini kan transaksi masa di delete?
+    ReservationResponse updateStatus(String id, ConstantReservationStatus status);
 
     List<GetReservationStatusResponse> getStatusReservations(InsertDateRequest date);
     List<Reservation> historyOfCustomer();

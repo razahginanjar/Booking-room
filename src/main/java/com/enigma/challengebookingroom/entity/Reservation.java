@@ -50,11 +50,8 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ConstantReservationStatus reservationStatus;
 
-    @Column(name = "reservation_description_by_user", updatable = false, nullable = false)
-    private String reservationDescriptionByUser;
-
-    @Column(name = "reservation_description_by_ga", updatable = false)
-    private String reservationDescriptionByGA;
+    @Column(name = "reservation_description", updatable = false, nullable = false)
+    private String reservationDescription;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Equipment> equipments;

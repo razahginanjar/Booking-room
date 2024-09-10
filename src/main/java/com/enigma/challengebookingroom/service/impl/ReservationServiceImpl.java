@@ -80,7 +80,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .startTime(converter.convertToLocalDate(request.getStartTime()))
                 .endTime(converter.convertToLocalDate(request.getEndTime()))
                 .reservationStatus(ConstantReservationStatus.PENDING)
-                .reservationDescriptionByUser(request.getReservationDescription())
+                .reservationDescription(request.getReservationDescription())
                 .build();
         if(Objects.nonNull(request.getEquipmentRequests()))
         {
@@ -131,12 +131,12 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationResponse update(UpdateReservationByAdmin request) {
         validation.validate(request);
         Reservation reservation = getReservationById(request.getIdReservation());
-        Employee employee = userServiceImpl.getByContext().getEmployee();
-
-        if(!reservation.getEmployee().getEmployeeId().equals(employee.getEmployeeId()))
-        {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase());
-        }
+//        Employee employee = userServiceImpl.getByContext().getEmployee();
+//
+//        if(!reservation.getEmployee().getEmployeeId().equals(employee.getEmployeeId()))
+//        {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase());
+//        }
 
         LocalDate localDate = converter.convertToLocalDate(request.getStartTime());
         LocalDate localDate1 = converter.convertToLocalDate(request.getEndTime());
@@ -147,7 +147,6 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservation.setStartTime(converter.convertToLocalDate(request.getStartTime()));
         reservation.setEndTime(converter.convertToLocalDate(request.getEndTime()));
-        reservation.setReservationDescriptionByUser(request.getReservationDescription());
         reservation.setRoom(roomService.getById(request.getRoomId()));
 
         reservation.setReservationStatus(ConstantReservationStatus.CANCELLED); // karena satu"nya update4 yang bisa dari user adalah cancel
@@ -159,14 +158,23 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ReservationResponse updateByAdmin(UpdateReservationStatusByAdmin request) {
-        Reservation reservation = getReservationById(request.getIdReservation());
-        validation.validate(request);
-        reservation.setReservationStatus(request.getReservationStatus());
-        reservation.setReservationDescriptionByGA(request.getActionReason());
-        Reservation saved = reservationRepository.saveAndFlush(reservation);
-        return reservationMapper.toResponse(saved);
+    public ReservationResponse updateStatus(String id, ConstantReservationStatus status) {
+        Reservation reservation = getReservationById(id);
+        reservation.setReservationStatus(status);
+        reservationRepository.updateReservationStatus(id, status);
+        return reservationMapper.toResponse(reservation);
     }
+
+//    @Transactional(rollbackFor = Exception.class)
+//    @Override
+//    public ReservationResponse updateByAdmin(UpdateReservationStatusByAdmin request) {
+//        Reservation reservation = getReservationById(request.getIdReservation());
+//        validation.validate(request);
+//        reservation.setReservationStatus(request.getReservationStatus());
+//        reservation.setReservationDescription(request.getActionReason());
+//        Reservation saved = reservationRepository.saveAndFlush(reservation);
+//        return reservationMapper.toResponse(saved);
+//    }
 
     @Transactional(readOnly = true)
     @Override
@@ -182,5 +190,4 @@ public class ReservationServiceImpl implements ReservationService {
         User user = userServiceImpl.getByContext();
         return reservationRepository.findAllByEmployee(user.getEmployee());
     }
-
 }
