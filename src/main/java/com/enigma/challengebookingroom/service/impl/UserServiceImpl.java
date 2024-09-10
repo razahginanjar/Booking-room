@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final EmployeeServiceImpl employeeServiceImpl;
 
     @Transactional(readOnly = true)
     @Override
@@ -29,7 +30,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public void remove(String id) {
         User byId = getById(id);
+        String employeeId = byId.getEmployee().getEmployeeId();
         userRepository.delete(byId);
+        employeeServiceImpl.removeEmployee(employeeId);
     }
 
     @Transactional(readOnly = true)

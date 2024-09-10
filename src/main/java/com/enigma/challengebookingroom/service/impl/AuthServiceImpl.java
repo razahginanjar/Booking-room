@@ -70,27 +70,27 @@ public class AuthServiceImpl implements AuthService {
         Role role = roleService.getOrSave(ConstantRole.USER);
         String hashPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = User.builder()
-                .username(request.getUsername())
-                .password(hashPassword)
-                .roles(List.of(role))
-                .build();
-        userRepository.saveAndFlush(user);
-
         EmployeeRequest employee = EmployeeRequest.builder()
-                .userId(user.getUserId())
                 .employeeName(request.getEmployeeName())
                 .department(request.getDepartment())
                 .phoneNumber(request.getPhoneNumber())
                 .corporateEmail(request.getCorporateEmail())
                 .build();
-        EmployeeResponse response = employeeService.createAndGetResponse(employee);
+        Employee response = employeeService.createAndGet(employee);
 
         EmployeeResponse employeeResponse = EmployeeResponse.builder()
                 .employeeId(response.getEmployeeId())
                 .employeeName(employee.getEmployeeName())
                 .department(employee.getDepartment())
                 .build();
+
+        User user = User.builder()
+                .username(request.getUsername())
+                .employee(response)
+                .password(hashPassword)
+                .roles(List.of(role))
+                .build();
+        userRepository.saveAndFlush(user);
 
         return RegisterResponse.builder()
                 .username(user.getUsername())

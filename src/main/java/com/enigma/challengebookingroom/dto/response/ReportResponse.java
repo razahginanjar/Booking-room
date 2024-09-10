@@ -8,18 +8,16 @@ import java.util.List;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ReservationResponse {
-    private String reservationId;
-    private EmployeeResponse employee;
-    private RoomResponse room;
-//    private EquipmentResponse equipment;
+@AllArgsConstructor
+@Builder
+public class ReportResponse {
+    private String employeeName;
+    private String roomType;
+    private List<String> equipments;
     private LocalDate reserveDate;
     private LocalDate startTime;
     private LocalDate endTime;
-    private ConstantReservationStatus reservationStatus;
+    private String reservationStatus;
     private String reservationDescription;
-    private List<EquipmentResponse> equipments;
 }

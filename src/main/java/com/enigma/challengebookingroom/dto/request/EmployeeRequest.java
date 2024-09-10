@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmployeeRequest implements Serializable {
     String employeeName;

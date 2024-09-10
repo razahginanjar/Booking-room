@@ -2,10 +2,7 @@ package com.enigma.challengebookingroom.service.impl;
 
 import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
-import com.enigma.challengebookingroom.dto.request.InsertDateRequest;
-import com.enigma.challengebookingroom.dto.request.ReservationRequest;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
+import com.enigma.challengebookingroom.dto.request.*;
 import com.enigma.challengebookingroom.dto.response.GetReservationStatusResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.entity.Employee;
@@ -19,6 +16,7 @@ import com.enigma.challengebookingroom.service.ReservationService;
 import com.enigma.challengebookingroom.service.RoomService;
 import com.enigma.challengebookingroom.util.ConverterUtils;
 import com.enigma.challengebookingroom.util.ValidationUtils;
+import com.mailjet.client.errors.MailjetException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,17 +35,16 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationRepository reservationRepository;
 
     private final RoomService roomService;
-    private final EmployeeService employeeService;
     private final ConverterUtils converter;
     private final ValidationUtils validation;
-
+    private final MailSenderService mailSenderService;
     private final ReservationMapper reservationMapper;
     private final UserServiceImpl userServiceImpl;
     private final EquipmentServiceImpl equipmentServiceImpl;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ReservationResponse create(ReservationRequest request) {
+    public ReservationResponse create(ReservationRequest request) throws MailjetException {
         validation.validate(request);
         //Employee employee = employeeService.getById(request.getEmployeeId());
         // menurutku ini mendingan pake bycontext aja
@@ -90,6 +87,17 @@ public class ReservationServiceImpl implements ReservationService {
             reservation.setEquipments(list);
         }
         Reservation saved = reservationRepository.saveAndFlush(reservation);
+        MailSenderRequest mailSenderRequest = MailSenderRequest.builder()
+                .equipment(saved.getEquipments().stream().map(
+                        Equipment::getEquipmentName
+                ).toList())
+                .startDate(request.getStartTime())
+                .endDate(request.getEndTime())
+                .idReservation(saved.getReservationId())
+                .roomType(saved.getRoom().getRoomType())
+                .employeeName(saved.getEmployee().getEmployeeName())
+                .build();
+        mailSenderService.create(mailSenderRequest);
         return reservationMapper.toResponse(saved);
     }
 
@@ -189,5 +197,10 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservation> historyOfCustomer() {
         User user = userServiceImpl.getByContext();
         return reservationRepository.findAllByEmployee(user.getEmployee());
+    }
+
+    @Override
+    public List<Reservation> getAll() {
+        return List.of();
     }
 }

@@ -104,10 +104,18 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test-autoconfigure</artifactId>
         </dependency>
+        <!--        majillet config-->
         <dependency>
-            <groupId>com.midtrans</groupId>
-            <artifactId>java-library</artifactId>
-            <version>3.1.4</version>
+            <groupId>com.mailjet</groupId>
+            <artifactId>mailjet-client</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
+        <!--        csv config-->
+        <dependency>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.5.2</version>
         </dependency>
     </dependencies>
 

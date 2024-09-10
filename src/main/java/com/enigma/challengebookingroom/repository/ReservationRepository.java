@@ -18,8 +18,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     List<Reservation> findAllByReservationStatus(ConstantReservationStatus status);
     List<Reservation> findAllByEmployee(Employee employee);
 
-    @Query(value = "SELECT res.reservationId, Employee.employeeName, " +
-            "Room.roomType, Equipment.equipmentName, res.startTime, res.endTime " +
+    @Query(value = "SELECT res.reservationId, u.employeeName, " +
+            "r.roomType, e.equipmentName, res.startTime, res.endTime " +
             "FROM Reservation res " +
             "JOIN Room r ON res.room = r.roomId " +
             "JOIN Equipment e ON res.equipments " +

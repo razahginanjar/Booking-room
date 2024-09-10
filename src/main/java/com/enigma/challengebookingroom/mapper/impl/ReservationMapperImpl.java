@@ -41,7 +41,7 @@ public class ReservationMapperImpl implements ReservationMapper {
                 .startTime(reservation.getStartTime())
                 .endTime(reservation.getEndTime())
                 .reservationStatus(reservation.getReservationStatus())
-                .reservationDescription(reservation.getReservationDescriptionByUser())
+                .reservationDescription(reservation.getReservationDescription())
                 .equipments(reservation.getEquipments().stream()
                         .map(this::mapToEquipmentResponse)
                         .toList())

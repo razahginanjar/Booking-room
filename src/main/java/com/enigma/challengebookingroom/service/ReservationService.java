@@ -8,11 +8,12 @@ import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmi
 import com.enigma.challengebookingroom.dto.response.GetReservationStatusResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.entity.Reservation;
+import com.mailjet.client.errors.MailjetException;
 
 import java.util.List;
 
 public interface ReservationService {
-    ReservationResponse create(ReservationRequest reservation);
+    ReservationResponse create(ReservationRequest reservation) throws MailjetException;
     // List<ReservationResponse> getAll();
     List<ReservationResponse> getAllByStatus(ConstantReservationStatus status);
     ReservationResponse getById(String id);
@@ -24,4 +25,5 @@ public interface ReservationService {
 
     List<GetReservationStatusResponse> getStatusReservations(InsertDateRequest date);
     List<Reservation> historyOfCustomer();
+    List<Reservation> getAll();
 }

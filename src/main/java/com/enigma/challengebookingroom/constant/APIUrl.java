@@ -15,6 +15,7 @@ public class APIUrl {
     public static final String RESERVATION = "/api/v1/reservation";
     public static final String ROOM = "/api/v1/room";
     public static final String ROOM_FACILITY = "/api/v1/room_facility";
+    public static final String DELETE_ACCOUNT = "/delete-account";
 //    public static final String USER = "/api/v1/user";
 //    public static final String EQUIPMENT_STATUS = "/api/v1/equipment_status";
 //    public static final String ACTIVITY_LOG = "/api/v1/activity_log";

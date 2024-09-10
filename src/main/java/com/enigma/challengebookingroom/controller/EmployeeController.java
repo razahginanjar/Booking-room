@@ -6,7 +6,9 @@ import com.enigma.challengebookingroom.dto.request.UpdateEmployeeRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
 import com.enigma.challengebookingroom.entity.Employee;
+import com.enigma.challengebookingroom.mapper.EmployeeMapper;
 import com.enigma.challengebookingroom.service.EmployeeService;
+import com.enigma.challengebookingroom.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class EmployeeController {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     private final EmployeeService employeeService;
+    private final UserService userService;
+    private final EmployeeMapper employeeMapper;
 
 //    kita bikinnya employee dari register
 //    jadi yg dibawah ga guna lagi hehe
@@ -45,13 +49,16 @@ public class EmployeeController {
 //    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CommonResponse<Employee>> getAllEmployee() {
+    public ResponseEntity<CommonResponse<List<EmployeeResponse>>> getAllEmployee() {
 
         List<Employee> employees = employeeService.getAllEmployee();
-        CommonResponse<Employee> response = CommonResponse.<Employee>builder()
+        List<EmployeeResponse> list = employees.stream().map(
+                employeeMapper::toResponse
+        ).toList();
+        CommonResponse<List<EmployeeResponse>> response = CommonResponse.<List<EmployeeResponse>>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
-                .data((Employee) employees)
+                .data(list)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -84,15 +91,28 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    //    @DeleteMapping(
+//            path =APIUrl.PATH_VAR_ID,
+//            produces = MediaType.APPLICATION_JSON_VALUE
+//    )
+//    public ResponseEntity<CommonResponse<String>> deleteEmployeeById(@PathVariable String id) {
+//        employeeService.removeEmployee(id);
+//        CommonResponse<String> response = CommonResponse.<String>builder()
+//                .statusCode(HttpStatus.OK.value())
+//                .message("Removed employee with id: " + id)
+//                .build();
+//        return ResponseEntity.status(HttpStatus.OK).body(response);
+//    }
+
     @DeleteMapping(
-            path =APIUrl.PATH_VAR_ID,
+            path =APIUrl.DELETE_ACCOUNT + APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CommonResponse<String>> deleteEmployeeById(@PathVariable String id) {
-        employeeService.removeEmployee(id);
+        userService.remove(id);
         CommonResponse<String> response = CommonResponse.<String>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message("Removed employee with id: " + id)
+                .message("Removed user with id: " + id)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

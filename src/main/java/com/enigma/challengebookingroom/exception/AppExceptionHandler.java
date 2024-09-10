@@ -107,19 +107,19 @@ public class AppExceptionHandler {
                 );
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<CommonResponse<String>> handleGenericException(Exception ex) {
-        logger.error(ConstantMessage.INTERNAL_SERVER_ERROR, ex);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(
-                        CommonResponse.<String>builder()
-                                .data(ConstantMessage.INTERNAL_SERVER_ERROR)
-                                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                                .message(ex.getLocalizedMessage())
-                                .build()
-                );
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ResponseEntity<CommonResponse<String>> handleGenericException(Exception ex) {
+//        logger.error(ConstantMessage.INTERNAL_SERVER_ERROR, ex);
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                .body(
+//                        CommonResponse.<String>builder()
+//                                .data(ConstantMessage.INTERNAL_SERVER_ERROR)
+//                                .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+//                                .message(ex.getLocalizedMessage())
+//                                .build()
+//                );
+//    }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<CommonResponse<ErrorResponse>> handleAccessDeniedException(AccessDeniedException ex) {
