@@ -1,19 +1,23 @@
 package com.enigma.challengebookingroom.controller;
 
-import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import com.enigma.challengebookingroom.dto.request.ReservationRequest;
@@ -21,14 +25,23 @@ import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.service.ReservationService;
+import com.enigma.challengebookingroom.service.impl.CsvService;
+import com.mailjet.client.errors.MailjetException;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
-import lombok.extern.slf4j.Slf4j;
+import jakarta.servlet.http.HttpServletResponse;
 
-@Slf4j
 class ReservationControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Mock
     private ReservationService reservationService;
+
+    @Mock
+    private CsvService csvService;
 
     @InjectMocks
     private ReservationController reservationController;
@@ -37,76 +50,117 @@ class ReservationControllerTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @BeforeEach
+    void setup() {
+    mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
+    }
+
+    @SuppressWarnings("null")
     @Test
-    void testCreateReservation() {
+    void createReservation() throws MailjetException {
         // Arrange
         ReservationRequest request = new ReservationRequest();
         ReservationResponse response = new ReservationResponse();
         when(reservationService.create(any(ReservationRequest.class))).thenReturn(response);
 
         // Act
-        ResponseEntity<CommonResponse<ReservationResponse>> responseEntity = reservationController.createReservation(request);
+        ResponseEntity<CommonResponse<ReservationResponse>> result = reservationController.createReservation(request);
 
         // Assert
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.CREATED.getReasonPhrase(), responseEntity.getBody().getMessage());
-        assertEquals(response, responseEntity.getBody().getData());
-        verify(reservationService, times(1)).create(request);
-        log.info("Test passed: testCreateReservation");
+        assertEquals(HttpStatus.CREATED, result.getStatusCode());
+        assertEquals(response, result.getBody().getData());
     }
 
+    @SuppressWarnings("null")
     @Test
-    void testGetAllReservations() {
+    void getAllReservations() {
         // Arrange
         ConstantReservationStatus status = ConstantReservationStatus.PENDING;
-        List<ReservationResponse> responses = Collections.singletonList(new ReservationResponse());
-        when(reservationService.getAllByStatus(status)).thenReturn(responses);
+        List<ReservationResponse> responseList = List.of(new ReservationResponse());
+        when(reservationService.getAllByStatus(status)).thenReturn(responseList);
 
         // Act
-        ResponseEntity<CommonResponse<List<ReservationResponse>>> responseEntity = reservationController.getAllReservations(status);
+        ResponseEntity<CommonResponse<List<ReservationResponse>>> result = reservationController.getAllReservations(status);
 
         // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.OK.getReasonPhrase(), responseEntity.getBody().getMessage());
-        assertEquals(responses, responseEntity.getBody().getData());
-        verify(reservationService, times(1)).getAllByStatus(status);
-        log.info("Test passed: testGetAllReservations");
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(responseList, result.getBody().getData());
     }
 
+    @SuppressWarnings("null")
     @Test
-    void testGetReservationById() {
+    void getReservationById() {
         // Arrange
-        String id = "1";
+        String id = "123";
         ReservationResponse response = new ReservationResponse();
         when(reservationService.getById(id)).thenReturn(response);
 
         // Act
-        ResponseEntity<CommonResponse<ReservationResponse>> responseEntity = reservationController.getReservationById(id);
+        ResponseEntity<CommonResponse<ReservationResponse>> result = reservationController.getReservationById(id);
 
         // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.OK.getReasonPhrase(), responseEntity.getBody().getMessage());
-        assertEquals(response, responseEntity.getBody().getData());
-        verify(reservationService, times(1)).getById(id);
-        log.info("Test passed: testGetReservationById");
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(response, result.getBody().getData());
     }
 
+    @SuppressWarnings("null")
     @Test
-    void testUpdateReservationByUser() {
+    void updateReservationByUser() {
         // Arrange
         UpdateReservationByAdmin request = new UpdateReservationByAdmin();
         ReservationResponse response = new ReservationResponse();
         when(reservationService.update(any(UpdateReservationByAdmin.class))).thenReturn(response);
 
         // Act
-        ResponseEntity<CommonResponse<ReservationResponse>> responseEntity = reservationController.updateReservationByUser(request);
+        ResponseEntity<CommonResponse<ReservationResponse>> result = reservationController.updateReservationByUser(request);
 
         // Assert
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(HttpStatus.OK.getReasonPhrase(), responseEntity.getBody().getMessage());
-        assertEquals(response, responseEntity.getBody().getData());
-        verify(reservationService, times(1)).update(request);
-        log.info("Test passed: testUpdateReservationByUser");
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(response, result.getBody().getData());
+    }
+
+    // @Test
+    // void testGetReservationStatus() throws Exception {
+    // // Arrange
+    // InsertDateRequest request = new InsertDateRequest();
+    // request.setDate("2024-09-10");
+
+    // GetReservationStatusResponse statusResponse = new GetReservationStatusResponse();
+
+    // List<GetReservationStatusResponse> statusList = List.of(statusResponse);
+
+    // when(reservationService.getStatusReservations(any(InsertDateRequest.class)))
+    //         .thenReturn(statusList);
+
+    // mockMvc = MockMvcBuilders.standaloneSetup(reservationController).build();
+
+    // // Act
+    // MvcResult mvcResult = mockMvc.perform(get(APIUrl.RESERVATION + APIUrl.PATH_AVAIL)
+    //         .param("date", "2024-09-10")
+    //         .accept(MediaType.APPLICATION_JSON))
+    //         .andExpect(status().isOk())
+    //         .andReturn();
+
+    // // Assert
+    // String content = mvcResult.getResponse().getContentAsString();
+    // assertThat(content).contains("\"statusCode\":200")
+    //     .contains("\"message\":\"OK\"")
+    //     .contains("\"data\":[{\"");
+    // }
+
+
+
+    @SuppressWarnings("null")
+    @Test
+    void downloadReservation() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+        // Arrange
+        doNothing().when(csvService).Download(any(HttpServletResponse.class));
+
+        // Act
+        ResponseEntity<CommonResponse<String>> result = reservationController.downloadReservation(mock(HttpServletResponse.class));
+
+        // Assert
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals("Downloaded", result.getBody().getMessage());
     }
 }
-

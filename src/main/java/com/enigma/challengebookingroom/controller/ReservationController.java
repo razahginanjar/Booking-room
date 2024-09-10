@@ -1,11 +1,29 @@
 package com.enigma.challengebookingroom.controller;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.enigma.challengebookingroom.constant.APIUrl;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import com.enigma.challengebookingroom.dto.request.InsertDateRequest;
 import com.enigma.challengebookingroom.dto.request.ReservationRequest;
 import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.GetReservationStatusResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
@@ -14,21 +32,14 @@ import com.enigma.challengebookingroom.service.impl.CsvService;
 import com.mailjet.client.errors.MailjetException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.RESERVATION)
+@WebMvcTest(ReservationController.class)
 public class ReservationController {
     private final ReservationService reservationService;
     private final CsvService csvService;
