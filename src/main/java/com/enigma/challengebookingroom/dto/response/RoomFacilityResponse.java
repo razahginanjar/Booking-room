@@ -13,3 +13,4 @@ public class RoomFacilityResponse {
     private String roomId;
     private String roomFacilityName;
 }
+
