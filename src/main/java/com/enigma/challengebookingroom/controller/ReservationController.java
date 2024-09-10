@@ -148,8 +148,13 @@ public class ReservationController {
     public ResponseEntity<CommonResponse<GetReservationStatusResponse>> getReservationStatus(
             InsertDateRequest request
     ) {
-        // logicnya
-        return ResponseEntity.status(HttpStatus.OK).body(null); // jangan lupa bodynya diganti
+        List<GetReservationStatusResponse> status = reservationService.getStatusReservations(request);
+        CommonResponse<GetReservationStatusResponse> response = CommonResponse.<GetReservationStatusResponse>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message(HttpStatus.OK.getReasonPhrase())
+                .data((GetReservationStatusResponse) status)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // download csv
