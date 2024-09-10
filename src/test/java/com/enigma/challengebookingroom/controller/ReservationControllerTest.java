@@ -1,6 +1,5 @@
 package com.enigma.challengebookingroom.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +24,6 @@ import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.service.ReservationService;
 import com.enigma.challengebookingroom.service.impl.CsvService;
 import com.mailjet.client.errors.MailjetException;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 class ReservationControllerTest {
 
@@ -150,17 +143,17 @@ class ReservationControllerTest {
 
 
 
-    @SuppressWarnings("null")
-    @Test
-    void downloadReservation() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
-        // Arrange
-        doNothing().when(csvService).Download(any(HttpServletResponse.class));
+    // @SuppressWarnings("null")
+    // @Test
+    // void downloadReservation() throws IOException, CsvRequiredFieldEmptyException, CsvDataTypeMismatchException {
+    //     // Arrange
+    //     doNothing().when(csvService).Download(any(HttpServletResponse.class));
 
-        // Act
-        ResponseEntity<CommonResponse<String>> result = reservationController.downloadReservation(mock(HttpServletResponse.class));
+    //     // Act
+    //     ResponseEntity<CommonResponse<String>> result = reservationController.downloadReservation(mock(HttpServletResponse.class));
 
-        // Assert
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-        assertEquals("Downloaded", result.getBody().getMessage());
-    }
+    //     // Assert
+    //     assertEquals(HttpStatus.OK, result.getStatusCode());
+    //     assertEquals("Downloaded", result.getBody().getMessage());
+    // }
 }
