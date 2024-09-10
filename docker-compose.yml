@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  app:
+    image: challenge-booking-room
+    container_name: challenge-booking-room
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: challengebookingroom_db
+      JWT_SECRET: Y2hhbGxlbmdlLWJvb2tpbmctcm9vbQ==
+      USERNAME_SUPER_ADMIN: superadmin
+      PASSWORD_SUPER_ADMIN: c3VwZXJhZG1pbnJvb20=
+    networks:
+      - monitoring
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: challengebookingroom_db
+    ports:
+      - "5432:5432"
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin  # You can change this to a secure password
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
