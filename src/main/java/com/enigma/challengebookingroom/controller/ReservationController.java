@@ -149,7 +149,7 @@ public class ReservationController {
     }
 
     // download csv
-    @PreAuthorize("hasRole('GENERAL_AFFAIR')")
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_DOWNLOAD,
             produces = MediaType.APPLICATION_JSON_VALUE

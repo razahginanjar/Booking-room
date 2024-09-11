@@ -1,10 +1,13 @@
 openapi: 3.0.1
 info:
-  title: OpenAPI definition
-  version: v0
+  title: Booking Room API
+  version: 1.0.0
+  description: "The Room Booking API is designed to replace the manual room booking process 
+at Enigma Camp with a digital-based solution. This application simplifies 
+the management and availability of room resources, ensuring efficient communication 
+and accessibility for all employees."
 servers:
 - url: http://localhost:8081
-  description: Generated server url
 paths:
   /api/v1/room_facility:
     put:
