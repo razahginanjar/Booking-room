@@ -22,8 +22,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private ConstantRole constantRole;
 
-//    @OneToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-//    @JsonManagedReference
-//    private List<User> users;
-
 }

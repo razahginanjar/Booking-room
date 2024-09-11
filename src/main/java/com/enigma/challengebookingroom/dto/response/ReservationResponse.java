@@ -15,7 +15,6 @@ public class ReservationResponse {
     private String reservationId;
     private EmployeeResponse employee;
     private RoomResponse room;
-//    private EquipmentResponse equipment;
     private LocalDate reserveDate;
     private LocalDate startTime;
     private LocalDate endTime;

@@ -31,8 +31,4 @@ public class Room {
     @JsonManagedReference
     private List<RoomFacility> roomFacilities;
 
-//    @Column(name = "isAvailable")
-//    @Enumerated(EnumType.STRING)
-//    private Boolean isAvailable;
-
 }

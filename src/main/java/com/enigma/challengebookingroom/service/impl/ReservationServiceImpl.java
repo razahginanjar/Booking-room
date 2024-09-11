@@ -11,7 +11,6 @@ import com.enigma.challengebookingroom.entity.Reservation;
 import com.enigma.challengebookingroom.entity.User;
 import com.enigma.challengebookingroom.mapper.ReservationMapper;
 import com.enigma.challengebookingroom.repository.ReservationRepository;
-import com.enigma.challengebookingroom.service.EmployeeService;
 import com.enigma.challengebookingroom.service.ReservationService;
 import com.enigma.challengebookingroom.service.RoomService;
 import com.enigma.challengebookingroom.util.ConverterUtils;
@@ -27,7 +26,6 @@ import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,9 +44,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponse create(ReservationRequest request) throws MailjetException {
         validation.validate(request);
-        //Employee employee = employeeService.getById(request.getEmployeeId());
-        // menurutku ini mendingan pake bycontext aja
-        //jadinya di request gak butuh employee id
         Employee employee = userServiceImpl.getByContext().getEmployee();
 
         LocalDate localDate = converter.convertToLocalDate(request.getStartTime());
@@ -117,7 +112,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional(readOnly = true)
     @Override
     public List<ReservationResponse> getAllByStatus(ConstantReservationStatus status) {
-//        List<Reservation> reservations;
+
         if (status != null) {
             return reservationRepository.findAllByReservationStatus(status).stream()
                     .map(reservationMapper::toResponse).toList();
@@ -144,12 +139,6 @@ public class ReservationServiceImpl implements ReservationService {
     public ReservationResponse update(UpdateReservationByAdmin request) {
         validation.validate(request);
         Reservation reservation = getReservationById(request.getIdReservation());
-//        Employee employee = userServiceImpl.getByContext().getEmployee();
-//
-//        if(!reservation.getEmployee().getEmployeeId().equals(employee.getEmployeeId()))
-//        {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase());
-//        }
 
         LocalDate localDate = converter.convertToLocalDate(request.getStartTime());
         LocalDate localDate1 = converter.convertToLocalDate(request.getEndTime());
@@ -162,8 +151,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setEndTime(converter.convertToLocalDate(request.getEndTime()));
         reservation.setRoom(roomService.getById(request.getRoomId()));
 
-        reservation.setReservationStatus(ConstantReservationStatus.CANCELLED); // karena satu"nya update4 yang bisa dari user adalah cancel
-
+        //reservation.setReservationStatus(ConstantReservationStatus.CANCELLED);
         Reservation saved = reservationRepository.saveAndFlush(reservation);
 
         return reservationMapper.toResponse(saved);
@@ -171,23 +159,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ReservationResponse updateStatus(String id, ConstantReservationStatus status) {
+    public void updateStatus(String id, ConstantReservationStatus status) {
         Reservation reservation = getReservationById(id);
         reservation.setReservationStatus(status);
         reservationRepository.updateReservationStatus(id, status);
-        return reservationMapper.toResponse(reservation);
+        reservationMapper.toResponse(reservation);
     }
 
-//    @Transactional(rollbackFor = Exception.class)
-//    @Override
-//    public ReservationResponse updateByAdmin(UpdateReservationStatusByAdmin request) {
-//        Reservation reservation = getReservationById(request.getIdReservation());
-//        validation.validate(request);
-//        reservation.setReservationStatus(request.getReservationStatus());
-//        reservation.setReservationDescription(request.getActionReason());
-//        Reservation saved = reservationRepository.saveAndFlush(reservation);
-//        return reservationMapper.toResponse(saved);
-//    }
 
     @Transactional(readOnly = true)
     @Override
@@ -195,7 +173,6 @@ public class ReservationServiceImpl implements ReservationService {
         validation.validate(request);
         LocalDate date = converter.convertToLocalDate(request.getDate());
         List<Reservation> statusReservation = reservationRepository.findStatusReservation(date);
-//        System.out.println(statusReservation.get(0));
         return statusReservation.stream().map(
                 reservationMapper::getResponseStatus
         ).toList();

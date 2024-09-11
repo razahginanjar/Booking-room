@@ -4,6 +4,7 @@ import com.enigma.challengebookingroom.constant.ConstantRole;
 import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
 import com.enigma.challengebookingroom.dto.request.LoginRequest;
 import com.enigma.challengebookingroom.dto.request.RegisterRequest;
+import com.enigma.challengebookingroom.dto.request.RoleRequest;
 import com.enigma.challengebookingroom.dto.response.Auth.LoginResponse;
 import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
@@ -26,6 +27,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,13 +50,15 @@ public class AuthServiceImpl implements AuthService {
     private String superAdminPassword;
 
     @PostConstruct
+    @Transactional(rollbackFor = Exception.class)
     public void init() {
         Optional<User> userSuperAdmin = userRepository.findByUsername(superAdminUsername);
         if (userSuperAdmin.isPresent()) return;
 
-        Role admin = roleService.getOrSave(ConstantRole.ROLE_ADMINISTRATOR);
-        Role ga = roleService.getOrSave(ConstantRole.ROLE_GENERAL_AFFAIR);
-        Role user = roleService.getOrSave(ConstantRole.ROLE_USER);
+
+        Role admin = roleService.create(RoleRequest.builder().constantRole(ConstantRole.ROLE_ADMINISTRATOR).build());
+        Role ga = roleService.create(RoleRequest.builder().constantRole(ConstantRole.ROLE_GENERAL_AFFAIR).build());
+        Role user = roleService.create(RoleRequest.builder().constantRole(ConstantRole.ROLE_USER).build());
 
         User account = User.builder()
                 .username(superAdminUsername)

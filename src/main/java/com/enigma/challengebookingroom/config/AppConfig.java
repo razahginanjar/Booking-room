@@ -22,11 +22,4 @@ public class AppConfig {
     {
         return configuration.getAuthenticationManager();
     }
-
-    // aktifkan lagi pas udah mau pake restclient
-//    @Bean
-//    public RestClient restClient()
-//    {
-//        return RestClient.create();
-//    }
 }

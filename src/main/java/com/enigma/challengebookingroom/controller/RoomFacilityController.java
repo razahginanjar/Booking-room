@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-// aku bikin ini buat jaga2
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.ROOM_FACILITY)

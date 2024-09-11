@@ -43,7 +43,7 @@ public class WebSecurityConfigure {
                                     .requestMatchers(APIUrl.RESERVATION+APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID).permitAll()
                                     .requestMatchers(APIUrl.RESERVATION+APIUrl.SUCCESS).permitAll()
                                     .requestMatchers(APIUrl.RESERVATION+APIUrl.ALREADY_CLICK).permitAll()
-                                    //.requestMatchers("/api/**").permitAll() //bisa dipakai untuk test kalo semisal ada permit test controller harus login
+                                    .requestMatchers("/**").permitAll() //for test and swagger
                                     .anyRequest().authenticated();
                         }
                 )

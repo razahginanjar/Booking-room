@@ -35,12 +35,4 @@ public class UpdateReservationByAdmin {
     @NotNull(message = ConstantMessage.NOT_NULL)
     private String idReservation;
 
-    // ini aku pikir2 juga ga perlu karena kita ga bakal ngerubah siapa yg pesen kan?
-    // kalo ga jadi ya tinggal nanti si GA ganti statusnya ke batal (masuknya update by admin)
-//    @NotBlank(message = ConstantMessage.NOT_BLANK)
-//    private String employeeId;
-
-    // ini aku bingung biar dia bisa ambil banyak sih kalo di updatenya, jadi aku komen dulu
-//    private String equipmentRequestId;
-
 }

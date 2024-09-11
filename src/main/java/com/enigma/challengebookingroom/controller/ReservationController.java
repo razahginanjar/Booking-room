@@ -1,10 +1,12 @@
 package com.enigma.challengebookingroom.controller;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.enigma.challengebookingroom.constant.ConstantMessage;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -107,26 +109,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // update status
-//    @PutMapping(
-//            path =APIUrl.PATH_ADMIN,
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            consumes = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByAdmin(
-//            @RequestBody UpdateReservationStatusByAdmin request
-//    ) {
-//        ReservationResponse updatedByAdmin = reservationService.updateByAdmin(request);
-//        CommonResponse<ReservationResponse> response = CommonResponse.<ReservationResponse>builder()
-//                .statusCode(HttpStatus.OK.value())
-//                .message(HttpStatus.OK.getReasonPhrase())
-//                .data(updatedByAdmin)
-//                .build();
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
 
-    // patch mapping buat endpoint mail sender
-    @PreAuthorize("hasRole('GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID
     )
@@ -142,14 +125,9 @@ public class ReservationController {
             // Mark the link as clicked
             clickedLinks.put(id, true);
             reservationService.updateStatus(id, status);
-//            CommonResponse<String> commonResponse = CommonResponse.<String>builder()
-//                    .statusCode(HttpStatus.OK.value())
-//                    .message(HttpStatus.OK.getReasonPhrase())
-//                    .build();
             // Redirect to a success page
             response.sendRedirect("http://localhost:8081"+APIUrl.RESERVATION+APIUrl.SUCCESS);
         }
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     // controller buat get avail room atau equipment disini aja
@@ -177,7 +155,6 @@ public class ReservationController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public void downloadReservation(HttpServletResponse response) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException, IOException {
-        // manggil service kiw kiw disini
         csvService.Download(response);
         CommonResponse<String> commonResponse = CommonResponse.<String>builder()
                 .statusCode(HttpStatus.OK.value())
@@ -187,15 +164,17 @@ public class ReservationController {
 
     @GetMapping(APIUrl.ALREADY_CLICK)
     public String alreadyClicked() {
-        return "<html><body><h1>Already Clicked</h1><p>This link has already been used. Please contact support if you need assistance.</p></body></html>";
+        return ConstantMessage.ALREADY_CLICK_HTML;
     }
 
     @GetMapping(APIUrl.SUCCESS)
     public String success() {
-        return "<html><body><h1>Success</h1><p>Your response has been recorded. Thank you!</p></body></html>";
+        return ConstantMessage.SUCCESS_CLICKED;
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(
+            path = "/employee",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<ReservationResponse>>> getAllByEmployee() {
         List<ReservationResponse> list = reservationService.historyOfCustomer();
         CommonResponse<List<ReservationResponse>> response = CommonResponse.<List<ReservationResponse>>builder()

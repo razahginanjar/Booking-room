@@ -39,11 +39,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee createAndGet(EmployeeRequest employee) {
         validator.validate(employee);
-//        User user = userService.getById(employee.getUserId());
         Employee build = Employee.builder()
                 .department(employee.getDepartment())
                 .employeeName(employee.getEmployeeName())
-//                .user(user)
                 .corporateEmail(employee.getCorporateEmail())
                 .phoneNumber(employee.getPhoneNumber())
                 .build();
@@ -66,7 +64,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void removeEmployee(String id) {
         Employee byId = getById(id);
-        // userService.remove();
         employeeRepository.delete(byId);
     }
 

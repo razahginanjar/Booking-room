@@ -95,19 +95,6 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    //    @DeleteMapping(
-//            path =APIUrl.PATH_VAR_ID,
-//            produces = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity<CommonResponse<String>> deleteEmployeeById(@PathVariable String id) {
-//        employeeService.removeEmployee(id);
-//        CommonResponse<String> response = CommonResponse.<String>builder()
-//                .statusCode(HttpStatus.OK.value())
-//                .message("Removed employee with id: " + id)
-//                .build();
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path =APIUrl.DELETE_ACCOUNT + APIUrl.PATH_VAR_ID,
