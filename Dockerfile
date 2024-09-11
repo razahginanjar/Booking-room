@@ -1,5 +1,5 @@
 # Use an official Maven image with OpenJDK 17 as a parent image for building the project
-FROM maven:3.8.6-openjdk-17 AS build
+FROM maven:3.9.9-eclipse-temurin-21-alpine AS build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -11,10 +11,10 @@ COPY pom.xml /app/
 COPY src /app/src
 
 # Run the Maven package command to build the jar, skipping tests and compilation
-RUN mvn package -DskipTests -DskipCompile
+RUN mvn dependency:resolve && mvn package -DskipTests -DskipCompile
 
 # Use a minimal JDK image to run the application
-FROM openjdk:17-jdk-alpine
+FROM openjdk:21
 
 # Set the working directory inside the container
 WORKDIR /app

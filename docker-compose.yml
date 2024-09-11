@@ -57,7 +57,12 @@ services:
       - $HOME/.zrok:/.zrok
     environment:
       PFXLOG_NO_JSON: "true"
-    command: share public --headless
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        zrok enable RBgZVgsh5nNn &&
+        zrok share public http://localhost:8081 --headless
     container_name: zrok
     depends_on:
       - spring-app
