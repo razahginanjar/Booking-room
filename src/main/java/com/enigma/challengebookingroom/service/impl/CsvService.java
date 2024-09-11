@@ -2,8 +2,6 @@ package com.enigma.challengebookingroom.service.impl;
 
 import com.enigma.challengebookingroom.dto.response.ReportResponse;
 import com.enigma.challengebookingroom.entity.Equipment;
-import com.enigma.challengebookingroom.entity.Room;
-import com.enigma.challengebookingroom.repository.RoomRepository;
 import com.enigma.challengebookingroom.service.ReservationService;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;

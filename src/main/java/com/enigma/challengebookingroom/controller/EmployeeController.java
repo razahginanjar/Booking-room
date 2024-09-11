@@ -100,7 +100,7 @@ public class EmployeeController {
     )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
-            path =APIUrl.DELETE_ACCOUNT + APIUrl.PATH_VAR_ID,
+            path = APIUrl.DELETE_ACCOUNT + APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CommonResponse<String>> deleteEmployeeById(@PathVariable String id) {

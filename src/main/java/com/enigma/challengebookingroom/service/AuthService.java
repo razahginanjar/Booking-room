@@ -7,5 +7,6 @@ import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;
 
 public interface AuthService {
     RegisterResponse register(RegisterRequest register);
+
     LoginResponse login(LoginRequest login);
 }

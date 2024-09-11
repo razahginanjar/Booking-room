@@ -85,6 +85,7 @@ public class RoomFacilityController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
     @Operation(
             description = "Delete specific room facility (ADMIN PRIVILEGE)",
             summary = "Delete specific room facility"

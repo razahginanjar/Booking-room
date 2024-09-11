@@ -33,12 +33,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain
     )
-            throws ServletException, IOException
-    {
-        try{
+            throws ServletException, IOException {
+        try {
             String token = request.getHeader(AUTH_HEADER);
-            if(Objects.nonNull(token) && jwtService.verifyToken(token))
-            {
+            if (Objects.nonNull(token) && jwtService.verifyToken(token)) {
                 JWTClaims jwtClaims = jwtService.claimToken(token);
                 User userByID = userService.getById(jwtClaims.getIdUser());
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
@@ -50,10 +48,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
 
-        }catch (Throwable throwable)
-        {
+        } catch (Throwable throwable) {
             log.error("Cannot set user authentication: {}", throwable.getLocalizedMessage());
-        }finally {
+        } finally {
             filterChain.doFilter(request, response);
         }
     }

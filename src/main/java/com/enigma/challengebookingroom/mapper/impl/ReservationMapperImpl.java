@@ -21,17 +21,17 @@ public class ReservationMapperImpl implements ReservationMapper {
     private final RoomMapper roomMapper;
     private final EquipmentMapper equipmentMapper;
 
-     public EmployeeResponse mapToEmployeeResponse(Employee employee) {
-         return employeeMapper.toResponse(employee);
-     }
+    public EmployeeResponse mapToEmployeeResponse(Employee employee) {
+        return employeeMapper.toResponse(employee);
+    }
 
-     public RoomResponse mapToRoomResponse(Room room) {
-         return roomMapper.toResponse(room);
-     }
+    public RoomResponse mapToRoomResponse(Room room) {
+        return roomMapper.toResponse(room);
+    }
 
-     public EquipmentResponse mapToEquipmentResponse(Equipment equipment) {
-         return equipmentMapper.toResponse(equipment);
-     }
+    public EquipmentResponse mapToEquipmentResponse(Equipment equipment) {
+        return equipmentMapper.toResponse(equipment);
+    }
 
     @Override
     public ReservationResponse toResponse(Reservation reservation) {
@@ -45,14 +45,13 @@ public class ReservationMapperImpl implements ReservationMapper {
                 .reservationStatus(reservation.getReservationStatus())
                 .reservationDescription(reservation.getReservationDescription())
                 .build();
-        if(Objects.nonNull(reservation.getEquipments()))
-         {
-             build.setEquipments(reservation.getEquipments().stream()
-                     .map(this::mapToEquipmentResponse)
-                     .toList());
-         }
+        if (Objects.nonNull(reservation.getEquipments())) {
+            build.setEquipments(reservation.getEquipments().stream()
+                    .map(this::mapToEquipmentResponse)
+                    .toList());
+        }
 
-         return build;
+        return build;
     }
 
     @Override
@@ -64,8 +63,7 @@ public class ReservationMapperImpl implements ReservationMapper {
                 .startDate(reservation.getStartTime())
                 .endDate(reservation.getEndTime())
                 .build();
-        if(Objects.nonNull(reservation.getEquipments()))
-        {
+        if (Objects.nonNull(reservation.getEquipments())) {
             build.setEquipments(reservation.getEquipments().stream()
                     .map(Equipment::getEquipmentName)
                     .toList());

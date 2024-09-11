@@ -33,6 +33,9 @@ public class User implements UserDetails {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 
     public String getUserId() {
         return userId;
@@ -58,14 +61,10 @@ public class User implements UserDetails {
         this.employee = employee;
     }
 
-    @OneToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(
-                userRole1 ->  new SimpleGrantedAuthority(userRole1.getConstantRole().name())
+                userRole1 -> new SimpleGrantedAuthority(userRole1.getConstantRole().name())
         ).toList();
     }
 

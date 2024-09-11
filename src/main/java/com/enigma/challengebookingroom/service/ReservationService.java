@@ -13,13 +13,20 @@ import java.util.List;
 
 public interface ReservationService {
     ReservationResponse create(ReservationRequest reservation) throws MailjetException;
+
     List<ReservationResponse> getAllByStatus(ConstantReservationStatus status);
+
     ReservationResponse getById(String id);
+
     Reservation getReservationById(String id);
+
     ReservationResponse updateCanceled(UpdateReservationStatusByAdmin reservation);
+
     void updateStatus(String id, ConstantReservationStatus status);
 
     List<GetReservationStatusResponse> getStatusReservations(InsertDateRequest date);
+
     List<ReservationResponse> historyOfCustomer();
+
     List<Reservation> getAll();
 }

@@ -1,11 +1,11 @@
 package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.mapper.RoomMapper;
-import com.enigma.challengebookingroom.service.RoomService;
 import com.enigma.challengebookingroom.dto.request.RoomRequest;
 import com.enigma.challengebookingroom.dto.response.RoomResponse;
 import com.enigma.challengebookingroom.entity.Room;
+import com.enigma.challengebookingroom.mapper.RoomMapper;
 import com.enigma.challengebookingroom.repository.RoomRepository;
+import com.enigma.challengebookingroom.service.RoomService;
 import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,14 +39,14 @@ public class RoomServiceImpl implements RoomService {
                 .roomCapacity(request.getRoomCapacity())
                 .roomType(request.getRoomType())
                 .build();
-        if(Objects.nonNull(request.getIdFacilities()))
-        {
+        if (Objects.nonNull(request.getIdFacilities())) {
             room.setRoomFacilities(request.getIdFacilities().stream().map(
                     roomFacilityServiceImpl::getById
             ).toList());
         }
         return roomRepository.saveAndFlush(room);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Room updateAndGet(RoomRequest request) {
@@ -76,12 +76,14 @@ public class RoomServiceImpl implements RoomService {
         Room byId = getById(id);
         return roomMapper.toResponse(byId);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public RoomResponse createAndGetResponse(RoomRequest request) {
         Room room = createAndGet(request);
         return roomMapper.toResponse(room);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public RoomResponse updateAndGetResponse(RoomRequest request) {

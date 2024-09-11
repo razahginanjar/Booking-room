@@ -5,6 +5,8 @@ import com.enigma.challengebookingroom.entity.User;
 
 public interface JwtService {
     String generateToken(User userAccount);
+
     Boolean verifyToken(String token);
+
     JWTClaims claimToken(String token);
 }

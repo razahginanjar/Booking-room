@@ -1,6 +1,5 @@
 package com.enigma.challengebookingroom.dto.response;
 
-import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import lombok.*;
 
 import java.time.LocalDate;

@@ -52,7 +52,7 @@ public class JwtServiceImpl implements JwtService {
                     .withExpiresAt(Instant.now().plusSeconds(JWT_EXPIRED_AT))
                     .withIssuer(JWT_ISSUE)
                     .sign(algorithm);
-        } catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Error: While Creating Token");
         }
     }
@@ -68,7 +68,7 @@ public class JwtServiceImpl implements JwtService {
 
             verifier.verify(parseJWTToken(token));
             return true;
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             log.info(exception.getLocalizedMessage());
         }
         return false;
@@ -89,17 +89,15 @@ public class JwtServiceImpl implements JwtService {
                     .roles(decodedJWT.getClaim("Role").asList(String.class))
                     .idUser(decodedJWT.getSubject())
                     .build();
-        } catch (JWTVerificationException exception){
+        } catch (JWTVerificationException exception) {
             // Invalid signature/claims
             log.info(exception.getLocalizedMessage());
         }
         return null;
     }
 
-    private String parseJWTToken(String token)
-    {
-        if (Objects.nonNull(token) && token.startsWith("Bearer "))
-        {
+    private String parseJWTToken(String token) {
+        if (Objects.nonNull(token) && token.startsWith("Bearer ")) {
             return token.substring(7);
         }
         return null;

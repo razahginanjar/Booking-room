@@ -21,12 +21,12 @@ public class EquipmentServiceImpl implements EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final ValidationUtils validator;
     private final EquipmentMapper equipmentMapper;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Equipment create(EquipmentRequest equipmentRequest) {
         validator.validate(equipmentRequest);
-        if(equipmentRepository.existsByEquipmentName(equipmentRequest.getEquipmentName()))
-        {
+        if (equipmentRepository.existsByEquipmentName(equipmentRequest.getEquipmentName())) {
             return equipmentRepository.findByEquipmentName(equipmentRequest.getEquipmentName()).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
             );
@@ -45,6 +45,7 @@ public class EquipmentServiceImpl implements EquipmentService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
         );
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Equipment update(EquipmentRequest equipmentRequest) {
@@ -52,12 +53,14 @@ public class EquipmentServiceImpl implements EquipmentService {
         byId.setEquipmentName(equipmentRequest.getEquipmentName());
         return equipmentRepository.saveAndFlush(byId);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteById(String id) {
         Equipment byId = getById(id);
         equipmentRepository.delete(byId);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public EquipmentResponse createResponse(EquipmentRequest equipmentRequest) {
@@ -76,6 +79,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         Equipment byId = getById(id);
         return equipmentMapper.toResponse(byId);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public EquipmentResponse updateResponse(EquipmentRequest equipmentRequest) {

@@ -67,7 +67,7 @@ public class RoomController {
             summary = "Get specific room "
     )
     @GetMapping(
-            path =APIUrl.PATH_VAR_ID,
+            path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CommonResponse<RoomResponse>> getRoomById(@PathVariable String id) {
@@ -79,6 +79,7 @@ public class RoomController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
     @Operation(
             description = "Update Room (ADMIN PRIVILEGE)",
             summary = "Update Room"
@@ -104,7 +105,7 @@ public class RoomController {
     )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
-            path =APIUrl.PATH_VAR_ID,
+            path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<CommonResponse<String>> deleteRoomById(@PathVariable String id) {

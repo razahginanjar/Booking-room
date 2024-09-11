@@ -1,8 +1,8 @@
 package com.enigma.challengebookingroom.dto.response;
 
-import java.util.Objects;
-
 import lombok.*;
+
+import java.util.Objects;
 
 @Getter
 @Setter

@@ -1,8 +1,8 @@
 package com.enigma.challengebookingroom.service.impl;
 
-import com.enigma.challengebookingroom.service.UserService;
 import com.enigma.challengebookingroom.entity.User;
 import com.enigma.challengebookingroom.repository.UserRepository;
+import com.enigma.challengebookingroom.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final EmployeeServiceImpl employeeServiceImpl;
 
@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService{
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user is not found")
         );
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void remove(String id) {

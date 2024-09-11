@@ -1,10 +1,9 @@
 package com.enigma.challengebookingroom.exception;
 
-import java.io.IOException;
-import java.time.DateTimeException;
-import java.util.stream.Collectors;
-
+import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
+import com.enigma.challengebookingroom.dto.response.ErrorResponse;
+import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -15,13 +14,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.enigma.challengebookingroom.constant.ConstantMessage;
-import com.enigma.challengebookingroom.dto.response.ErrorResponse;
-
-import jakarta.persistence.EntityNotFoundException;
+import java.io.IOException;
+import java.time.DateTimeException;
+import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class AppExceptionHandler {
@@ -58,7 +55,7 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<CommonResponse<String>>  handleIllegalArgumentException(IllegalArgumentException ex) {
+    public ResponseEntity<CommonResponse<String>> handleIllegalArgumentException(IllegalArgumentException ex) {
         logger.error(ConstantMessage.BAD_REQUEST, ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(
@@ -106,6 +103,7 @@ public class AppExceptionHandler {
                                 .build()
                 );
     }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<CommonResponse<ErrorResponse>> handleAccessDeniedException(AccessDeniedException ex) {
         ErrorResponse errorResponse = new ErrorResponse(ConstantMessage.FORBIDDEN + ex.getMessage(),
@@ -123,8 +121,7 @@ public class AppExceptionHandler {
     }
 
     @ExceptionHandler(DateTimeException.class)
-    public ResponseEntity<CommonResponse<String>> dateTimeException(DateTimeException exception)
-    {
+    public ResponseEntity<CommonResponse<String>> dateTimeException(DateTimeException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(
                         CommonResponse.<String>builder()

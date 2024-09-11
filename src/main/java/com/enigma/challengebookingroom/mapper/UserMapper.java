@@ -5,5 +5,6 @@ import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;
 
 public interface UserMapper {
     LoginResponse toResponseLogin();
+
     RegisterResponse toRegisterResponse();
 }

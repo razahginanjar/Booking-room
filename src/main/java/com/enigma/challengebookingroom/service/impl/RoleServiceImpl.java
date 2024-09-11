@@ -1,10 +1,10 @@
 package com.enigma.challengebookingroom.service.impl;
 
 import com.enigma.challengebookingroom.constant.ConstantRole;
-import com.enigma.challengebookingroom.service.RoleService;
 import com.enigma.challengebookingroom.dto.request.RoleRequest;
 import com.enigma.challengebookingroom.entity.Role;
 import com.enigma.challengebookingroom.repository.RoleRepository;
+import com.enigma.challengebookingroom.service.RoleService;
 import com.enigma.challengebookingroom.util.ValidationUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Role create(RoleRequest request) {
         validator.validate(request);
-        if(roleRepository.existsByConstantRole(request.getConstantRole()))
-        {
+        if (roleRepository.existsByConstantRole(request.getConstantRole())) {
             return roleRepository.findByConstantRole(request.getConstantRole()).orElse(null);
         }
         Role role = Role.builder()
@@ -39,6 +38,7 @@ public class RoleServiceImpl implements RoleService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase())
         );
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Role update(RoleRequest request) {
@@ -47,6 +47,7 @@ public class RoleServiceImpl implements RoleService {
         byId.setConstantRole(request.getConstantRole());
         return roleRepository.saveAndFlush(byId);
     }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void delete(String id) {

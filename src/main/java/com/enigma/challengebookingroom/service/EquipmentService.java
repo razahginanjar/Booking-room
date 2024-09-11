@@ -8,12 +8,18 @@ import java.util.List;
 
 public interface EquipmentService {
     Equipment create(EquipmentRequest equipmentRequest);
+
     Equipment getById(String id);
+
     Equipment update(EquipmentRequest equipmentRequest);
+
     void deleteById(String id);
 
     EquipmentResponse createResponse(EquipmentRequest equipmentRequest);
+
     List<EquipmentResponse> getAll();
+
     EquipmentResponse getResponseById(String id);
+
     EquipmentResponse updateResponse(EquipmentRequest equipmentRequest);
 }

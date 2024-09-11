@@ -2,7 +2,10 @@ package com.enigma.challengebookingroom.service.impl;
 
 import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
-import com.enigma.challengebookingroom.dto.request.*;
+import com.enigma.challengebookingroom.dto.request.InsertDateRequest;
+import com.enigma.challengebookingroom.dto.request.MailSenderRequest;
+import com.enigma.challengebookingroom.dto.request.ReservationRequest;
+import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
 import com.enigma.challengebookingroom.dto.response.GetReservationStatusResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
 import com.enigma.challengebookingroom.entity.Employee;
@@ -48,8 +51,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         LocalDate localDate = converter.convertToLocalDate(request.getStartTime());
         LocalDate localDate1 = converter.convertToLocalDate(request.getEndTime());
-        if(localDate.isBefore(LocalDate.now()) || localDate1.isBefore(LocalDate.now()))
-        {
+        if (localDate.isBefore(LocalDate.now()) || localDate1.isBefore(LocalDate.now())) {
             throw new DateTimeException(ConstantMessage.ERROR_DATE);
         }
 
@@ -73,8 +75,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .reservationStatus(ConstantReservationStatus.PENDING)
                 .reservationDescription(request.getReservationDescription())
                 .build();
-        if(Objects.nonNull(request.getEquipmentRequests()))
-        {
+        if (Objects.nonNull(request.getEquipmentRequests())) {
             List<Equipment> list = request.getEquipmentRequests().stream().map(
                     equipmentServiceImpl::create
             ).toList();
@@ -90,8 +91,7 @@ public class ReservationServiceImpl implements ReservationService {
                 .employeeName(employee.getEmployeeName())
                 .build();
 
-        if(Objects.nonNull(saved.getEquipments()))
-        {
+        if (Objects.nonNull(saved.getEquipments())) {
             mailSenderRequest.setEquipment(saved.getEquipments().stream().map(
                     Equipment::getEquipmentName
             ).toList());

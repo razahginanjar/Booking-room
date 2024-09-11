@@ -24,8 +24,7 @@ public class WebSecurityConfigure {
     private final AuthenticationFilter filter;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception
-    {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
@@ -40,9 +39,9 @@ public class WebSecurityConfigure {
                             authorizationManagerRequestMatcherRegistry
                                     .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                                     .requestMatchers("/api/v1/auth/**").permitAll()
-                                    .requestMatchers(APIUrl.RESERVATION+APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID).permitAll()
-                                    .requestMatchers(APIUrl.RESERVATION+APIUrl.SUCCESS).permitAll()
-                                    .requestMatchers(APIUrl.RESERVATION+APIUrl.ALREADY_CLICK).permitAll()
+                                    .requestMatchers(APIUrl.RESERVATION + APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID).permitAll()
+                                    .requestMatchers(APIUrl.RESERVATION + APIUrl.SUCCESS).permitAll()
+                                    .requestMatchers(APIUrl.RESERVATION + APIUrl.ALREADY_CLICK).permitAll()
                                     .requestMatchers(
                                             "/v2/api-docs",
                                             "/v3/api-docs",
