@@ -25,6 +25,8 @@ public class MailSenderService {
 
     String EMAIL_SENDER;
 
+    String URL_SERVER;
+
     String EMAIL_ADMIN;
 
     EmployeeService employeeService;
@@ -33,11 +35,13 @@ public class MailSenderService {
                              @Value("${challengebookingroom.API_KEY_SECRET}")String API_SECRET_KEY,
                              @Value("${challengebookingroom.API_MAIL_SENDER}") String EMAIL_SENDER,
                              @Value("${challengebookingroom.API_MAIL_ADMIN}") String EMAIL_ADMIN,
+                             @Value("${challengebookingroom.API_URL_SERVER}")String URL_SERER,
                              EmployeeService employeeService) {
         this.API_PUBLIC_KEY = API_PUBLIC_KEY;
         this.API_SECRET_KEY = API_SECRET_KEY;
         this.EMAIL_SENDER = EMAIL_SENDER;
         this.EMAIL_ADMIN = EMAIL_ADMIN;
+        this.URL_SERVER =URL_SERER;
         this.employeeService = employeeService;
     }
 
@@ -67,8 +71,8 @@ public class MailSenderService {
                                         "room_type", mailSenderRequest.getRoomType(),
                                         "start_date", mailSenderRequest.getStartDate(),
                                         "end_date", mailSenderRequest.getEndDate(),
-                                        "url_accept", "http://localhost:8081"+ APIUrl.RESERVATION+APIUrl.PATH_STATUS +"/"+mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.APPROVED,
-                                "url_decline", "http://localhost:8081"+ APIUrl.RESERVATION+APIUrl.PATH_STATUS +"/"+mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.DECLINED))
+                                        "url_accept", URL_SERVER+ APIUrl.RESERVATION+APIUrl.PATH_STATUS +"/"+mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.APPROVED,
+                                "url_decline", URL_SERVER+ APIUrl.RESERVATION+APIUrl.PATH_STATUS +"/"+mailSenderRequest.getIdReservation()+"?action="+ ConstantReservationStatus.DECLINED))
                                 .put(Emailv31.Message.SUBJECT, "Booking Request!")
 
                         ));

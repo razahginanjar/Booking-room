@@ -8,6 +8,9 @@ import com.enigma.challengebookingroom.entity.Employee;
 import com.enigma.challengebookingroom.mapper.EmployeeMapper;
 import com.enigma.challengebookingroom.service.EmployeeService;
 import com.enigma.challengebookingroom.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -23,6 +26,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.EMPLOYEE)
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Employee")
 public class EmployeeController {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -31,6 +36,10 @@ public class EmployeeController {
     private final UserService userService;
     private final EmployeeMapper employeeMapper;
 
+    @Operation(
+            description = "Get all employee (ADMIN PRIVILEGE)",
+            summary = "Get all employee "
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<EmployeeResponse>>> getAllEmployee() {
@@ -47,6 +56,10 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Get specific employee (ADMIN PRIVILEGE)",
+            summary = "Get specific employee "
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
@@ -62,6 +75,10 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Update employee information (ADMIN PRIVILEGE)",
+            summary = "Update employee information"
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -77,6 +94,10 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Delete specific employee (ADMIN PRIVILEGE)",
+            summary = "Delete specific employee"
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path =APIUrl.DELETE_ACCOUNT + APIUrl.PATH_VAR_ID,

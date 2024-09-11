@@ -124,24 +124,12 @@
             <version>5.5.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>2.6.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.8.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openapitools/jackson-databind-nullable -->
-        <dependency>
-            <groupId>org.openapitools</groupId>
-            <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.2.6</version>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -157,82 +145,6 @@
                 <configuration>
                     <sourceDirectory>src/docs/asciidoc</sourceDirectory>
                     <outputDirectory>target/generated-docs</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>2.2.1</version>
-                <configuration>
-                    <sourceDirectory>src/docs/asciidoc</sourceDirectory>
-                    <outputDirectory>target/generated-docs</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <target>${maven.source.compiler}</target>
-                    <source>${maven.target.compiler}</source>
-                    <encoding>${maven.encoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.8.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/swagger_config/openapi.yaml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <packageName>com.enigma.challengebookingroom</packageName>
-                            <apiPackage>com.enigma.challengebookingroom.api</apiPackage>
-                            <modelPackage>com.enigma.challengebookingroom.model</modelPackage>
-                            <generateSupportingFiles>true</generateSupportingFiles>
-                            <generateApiDocumentation>true</generateApiDocumentation>
-                            <generateModels>true</generateModels>
-                            <generateApis>true</generateApis>
-                            <configOptions>
-                                <sourceFolder>src/gen/java/main</sourceFolder>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <useTags>true</useTags>
-                                <useSpringController>true</useSpringController>
-                                <dataLibrary>java8</dataLibrary>
-                                <additionalModelTypeAnnotation>
-                                    @lombok.Setter
-                                    @lombok.Getter
-                                </additionalModelTypeAnnotation>
-                            </configOptions>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>io.swagger.codegen.v3</groupId>
-                <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>3.0.61</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <inputSpec>http://localhost:8081/v3/api-docs</inputSpec>
-                    <language>openapi-yaml</language>
-                    <output>${project.build.directory}/openapi</output>
                 </configuration>
             </plugin>
         </plugins>

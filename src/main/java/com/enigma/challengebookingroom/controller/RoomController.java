@@ -7,6 +7,9 @@ import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.RoomResponse;
 import com.enigma.challengebookingroom.entity.Room;
 import com.enigma.challengebookingroom.service.RoomService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,9 +23,15 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.ROOM)
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Room")
 public class RoomController {
     private final RoomService roomService;
 
+    @Operation(
+            description = "Add room to DB(ADMIN PRIVILEGE)",
+            summary = "Add room "
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -38,6 +47,10 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(
+            description = "Get all room",
+            summary = "Get all room "
+    )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<Room>>> getAllRoom() {
         List<Room> roomList = roomService.getAll();
@@ -49,6 +62,10 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Get specific room",
+            summary = "Get specific room "
+    )
     @GetMapping(
             path =APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -62,7 +79,10 @@ public class RoomController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
+    @Operation(
+            description = "Update Room (ADMIN PRIVILEGE)",
+            summary = "Update Room"
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -78,6 +98,10 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Delete specific room (ADMIN PRIVILEGE)",
+            summary = "Delete specific room"
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path =APIUrl.PATH_VAR_ID,

@@ -5,6 +5,9 @@ import com.enigma.challengebookingroom.dto.request.RoomFacilityRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.RoomFacilityResponse;
 import com.enigma.challengebookingroom.service.RoomFacilityService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,9 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.ROOM_FACILITY)
+@Tag(name = "Room Facility")
+@SecurityRequirement(name = "bearerAuth")
 public class RoomFacilityController {
     private final RoomFacilityService roomFacilityService;
 
+    @Operation(
+            description = "Add room facility to DB(ADMIN PRIVILEGE)",
+            summary = "Add room facility "
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -35,6 +44,10 @@ public class RoomFacilityController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(
+            description = "Get specific room facility (ADMIN PRIVILEGE)",
+            summary = "Get specific room facility "
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
@@ -52,6 +65,10 @@ public class RoomFacilityController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Update room facility (ADMIN PRIVILEGE)",
+            summary = "Update room facility"
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -68,7 +85,10 @@ public class RoomFacilityController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
+    @Operation(
+            description = "Delete specific room facility (ADMIN PRIVILEGE)",
+            summary = "Delete specific room facility"
+    )
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path = APIUrl.PATH_VAR_ID,

@@ -4,11 +4,12 @@ import lombok.*;
 
 // DEPRECATED
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+//@Getter
+//@Setter
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Builder
+@Deprecated
 public class Deprecated_UpdateReservationByAdmin {
 //    @NotBlank(message = ConstantMessage.NOT_BLANK)
 //    @NotEmpty(message = ConstantMessage.NOT_EMPTY)

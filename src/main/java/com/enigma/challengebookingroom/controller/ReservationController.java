@@ -7,6 +7,11 @@ import java.util.Map;
 
 import com.enigma.challengebookingroom.constant.ConstantMessage;
 import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,14 +36,22 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(path = APIUrl.RESERVATION)
+@RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 @WebMvcTest(ReservationController.class)
+@Tag(name = "Reservation")
 public class ReservationController {
     private final ReservationService reservationService;
+    @Value("${challengebookingroom.API_URL_SERVER}")
+    private  String URL_SERVER;
     private final CsvService csvService;
     private final Map<String, Boolean> clickedLinks = new HashMap<>();
 
+    @Operation(
+            description = "Add Reservation to DB(ADMIN PRIVILEGE)",
+            summary = "Add Reservation "
+    )
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -55,6 +68,10 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(
+            description = "Get all reservation(ADMIN PRIVILEGE)",
+            summary = "Get all reservation"
+    )
     @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<ReservationResponse>>> getAllReservations(
@@ -69,6 +86,10 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Get specific reservation (ADMIN, AND GENERAL_AFFAIR PRIVILEGE)",
+            summary = "Get specific reservation"
+    )
     @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
@@ -84,6 +105,11 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Update reservation information (ADMIN PRIVILEGE)",
+            summary = "Update reservation information"
+    )
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PatchMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -100,7 +126,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-
+    @Hidden
     @GetMapping(
             path = APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID
     )
@@ -110,15 +136,18 @@ public class ReservationController {
             HttpServletResponse response
     ) throws IOException {
         if (clickedLinks.containsKey(id)) {
-            response.sendRedirect("http://localhost:8081"+APIUrl.RESERVATION+APIUrl.ALREADY_CLICK);
+            response.sendRedirect(URL_SERVER+APIUrl.RESERVATION+APIUrl.ALREADY_CLICK);
         } else {
             clickedLinks.put(id, true);
             reservationService.updateStatus(id, status);
 
-            response.sendRedirect("http://localhost:8081"+APIUrl.RESERVATION+APIUrl.SUCCESS);
+            response.sendRedirect(URL_SERVER+APIUrl.RESERVATION+APIUrl.SUCCESS);
         }
     }
-
+    @Operation(
+            description = "Get reservation based on date",
+            summary = "Get reservation based on date"
+    )
     @GetMapping(
             path = APIUrl.PATH_AVAIL,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -135,7 +164,10 @@ public class ReservationController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
+    @Operation(
+            description = "Download data reservation in csv",
+            summary = "Download data reservation"
+    )
     @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_DOWNLOAD,
@@ -146,16 +178,22 @@ public class ReservationController {
         csvService.Download(response);
     }
 
+    @Hidden
     @GetMapping(APIUrl.ALREADY_CLICK)
     public String alreadyClicked() {
         return ConstantMessage.ALREADY_CLICK_HTML;
     }
 
+    @Hidden
     @GetMapping(APIUrl.SUCCESS)
     public String success() {
         return ConstantMessage.SUCCESS_CLICKED;
     }
 
+    @Operation(
+            description = "Get data reservation based on employee",
+            summary = "Get data reservation"
+    )
     @GetMapping(
             path = "/employee",
             produces = MediaType.APPLICATION_JSON_VALUE)
