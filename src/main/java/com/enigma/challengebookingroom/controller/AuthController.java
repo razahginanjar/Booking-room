@@ -1,6 +1,7 @@
 package com.enigma.challengebookingroom.controller;
 
 import com.enigma.challengebookingroom.constant.APIUrl;
+import com.enigma.challengebookingroom.dto.request.AddRoleRequest;
 import com.enigma.challengebookingroom.dto.request.LoginRequest;
 import com.enigma.challengebookingroom.dto.request.RegisterRequest;
 import com.enigma.challengebookingroom.dto.response.Auth.LoginResponse;
@@ -15,10 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,6 +61,21 @@ public class AuthController {
                 .statusCode(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase() + ". Login success")
                 .data(login)
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping(
+            path = "/roles",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    public ResponseEntity<CommonResponse<RegisterResponse>> addRole(@RequestBody AddRoleRequest request) {
+        RegisterResponse role = authService.addRole(request);
+        CommonResponse<RegisterResponse> response = CommonResponse.<RegisterResponse>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message(HttpStatus.OK.getReasonPhrase() + ". Add role success")
+                .data(role)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
