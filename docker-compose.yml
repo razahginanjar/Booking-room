@@ -14,7 +14,7 @@ services:
       - "5432:5432"
 
   spring-app:
-    build: ./backend
+    build: ./
     container_name: spring-app
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/challengebookingroom_db
@@ -50,10 +50,15 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: 'admin'
 
   zrok:
-    image: netfoundry/zrok
+    image: openziti/zrok
+    restart: unless-stopped
+    user: "${UID}"
+    volumes:
+      - $HOME/.zrok:/.zrok
+    environment:
+      PFXLOG_NO_JSON: "true"
+    command: share public --headless
     container_name: zrok
-    ports:
-      - "8082:8082"
     depends_on:
       - spring-app
 
