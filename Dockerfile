@@ -1,11 +1,26 @@
-# Use an official OpenJDK runtime as a parent image
+# Use an official Maven image with OpenJDK 17 as a parent image for building the project
+FROM maven:3.8.6-openjdk-17 AS build
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the pom.xml and other necessary Maven files
+COPY pom.xml /app/
+
+# Copy the source code into the container
+COPY src /app/src
+
+# Run the Maven package command to build the jar, skipping tests and compilation
+RUN mvn package -DskipTests -DskipCompile
+
+# Use a minimal JDK image to run the application
 FROM openjdk:17-jdk-alpine
 
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the jar file from the host to the container
-COPY target/challenge-booking-room-0.0.1-SNAPSHOT.jar /app/challenge-booking-room.jar
+# Copy the jar file generated during the build stage
+COPY --from=build /app/target/challenge-booking-room-0.0.1-SNAPSHOT.jar /app/challenge-booking-room.jar
 
 # Expose the port the app runs on
 EXPOSE 8081

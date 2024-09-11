@@ -1,53 +1,61 @@
 version: '3.8'
 
 services:
-  app:
-    image: challenge-booking-room
-    container_name: challenge-booking-room
-    ports:
-      - "8081:8081"
-    environment:
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_NAME: challengebookingroom_db
-      JWT_SECRET: Y2hhbGxlbmdlLWJvb2tpbmctcm9vbQ==
-      USERNAME_SUPER_ADMIN: superadmin
-      PASSWORD_SUPER_ADMIN: c3VwZXJhZG1pbnJvb20=
-    networks:
-      - monitoring
-
   postgres:
-    image: postgres:15
+    image: postgres:14
     container_name: postgres
     environment:
+      POSTGRES_DB: template1
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: challengebookingroom_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    networks:
-      - monitoring
+
+  spring-app:
+    build: ./backend
+    container_name: spring-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/challengebookingroom_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "8081:8081"
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
     container_name: prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    networks:
-      - monitoring
-
+  
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    ports:
+      - "9100:9100"
+  
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana
     container_name: grafana
+    depends_on:
+      - prometheus
     ports:
       - "3000:3000"
     environment:
-      GF_SECURITY_ADMIN_PASSWORD: admin  # You can change this to a secure password
-    networks:
-      - monitoring
+      GF_SECURITY_ADMIN_PASSWORD: 'admin'
 
-networks:
-  monitoring:
-    driver: bridge
+  zrok:
+    image: netfoundry/zrok
+    container_name: zrok
+    ports:
+      - "8082:8082"
+    depends_on:
+      - spring-app
+
+volumes:
+  pgdata:
