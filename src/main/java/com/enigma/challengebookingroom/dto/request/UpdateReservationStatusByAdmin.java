@@ -11,5 +11,4 @@ import lombok.*;
 public class UpdateReservationStatusByAdmin {
     private String idReservation;
     private ConstantReservationStatus reservationStatus;
-    private String actionReason;
 }

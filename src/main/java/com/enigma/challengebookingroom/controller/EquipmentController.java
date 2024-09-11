@@ -4,7 +4,6 @@ import com.enigma.challengebookingroom.constant.APIUrl;
 import com.enigma.challengebookingroom.dto.request.EquipmentRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.EquipmentResponse;
-import com.enigma.challengebookingroom.entity.Equipment;
 import com.enigma.challengebookingroom.service.EquipmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

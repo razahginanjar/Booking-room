@@ -1,7 +1,6 @@
 package com.enigma.challengebookingroom.controller;
 
 import com.enigma.challengebookingroom.constant.APIUrl;
-import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
 import com.enigma.challengebookingroom.dto.request.UpdateEmployeeRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
@@ -32,23 +31,6 @@ public class EmployeeController {
     private final UserService userService;
     private final EmployeeMapper employeeMapper;
 
-//    kita bikinnya employee dari register
-//    jadi yg dibawah ga guna lagi hehe
-//    @PostMapping(
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            consumes = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity<CommonResponse<EmployeeResponse>> createEmployee(@Valid @RequestBody EmployeeRequest request) {
-//        logger.debug("Request to create employee: {}", request);
-//        EmployeeResponse create = employeeService.createAndGetResponse(request);
-//        CommonResponse<EmployeeResponse> response = CommonResponse.<EmployeeResponse>builder()
-//                .statusCode(HttpStatus.CREATED.value())
-//                .message(HttpStatus.CREATED.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
-//                .data(create)
-//                .build();
-//        return ResponseEntity.status(HttpStatus.CREATED).body(response);
-//    }
-
     @PreAuthorize("hasRole('ADMINISTRATOR')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<EmployeeResponse>>> getAllEmployee() {
@@ -59,7 +41,7 @@ public class EmployeeController {
         ).toList();
         CommonResponse<List<EmployeeResponse>> response = CommonResponse.<List<EmployeeResponse>>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(HttpStatus.OK.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+                .message(HttpStatus.OK.getReasonPhrase())
                 .data(list)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);

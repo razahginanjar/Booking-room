@@ -32,7 +32,7 @@ public class RoomController {
         RoomResponse create = roomService.createAndGetResponse(request);
         CommonResponse<RoomResponse> response = CommonResponse.<RoomResponse>builder()
                 .statusCode(HttpStatus.CREATED.value())
-                .message(HttpStatus.CREATED.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+                .message(HttpStatus.CREATED.getReasonPhrase())
                 .data(create)
                 .build();
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
@@ -43,7 +43,7 @@ public class RoomController {
         List<Room> roomList = roomService.getAll();
         CommonResponse<List<Room>> response = CommonResponse.<List<Room>>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(ConstantMessage.OK) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+                .message(ConstantMessage.OK)
                 .data(roomList)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -57,7 +57,7 @@ public class RoomController {
         RoomResponse roomById = roomService.getByIdResponse(id);
         CommonResponse<RoomResponse> response = CommonResponse.<RoomResponse>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(HttpStatus.OK.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+                .message(HttpStatus.OK.getReasonPhrase())
                 .data(roomById)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -72,7 +72,7 @@ public class RoomController {
         RoomResponse roomById = roomService.updateAndGetResponse(request);
         CommonResponse<RoomResponse> response = CommonResponse.<RoomResponse>builder()
                 .statusCode(HttpStatus.OK.value())
-                .message(HttpStatus.OK.getReasonPhrase()) // pesannya gini dulu, ntar ganti aja (sebenernya sama aja sih sama yg di constant message)
+                .message(HttpStatus.OK.getReasonPhrase())
                 .data(roomById)
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);

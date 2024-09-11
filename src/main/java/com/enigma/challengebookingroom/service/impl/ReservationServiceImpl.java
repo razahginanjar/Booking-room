@@ -53,7 +53,6 @@ public class ReservationServiceImpl implements ReservationService {
             throw new DateTimeException(ConstantMessage.ERROR_DATE);
         }
 
-        // cek ruangan avail atau ga
         List<Reservation> conflictingReservations = reservationRepository.findAvailRoom(
                 request.getRoomId(),
                 converter.convertToLocalDate(request.getStartTime()),
@@ -108,7 +107,6 @@ public class ReservationServiceImpl implements ReservationService {
 //                .toList();
 //    }
 
-    // aku bikin ini juga nanti tinggal make yg mana monggo
     @Transactional(readOnly = true)
     @Override
     public List<ReservationResponse> getAllByStatus(ConstantReservationStatus status) {
@@ -136,22 +134,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ReservationResponse update(UpdateReservationByAdmin request) {
+    public ReservationResponse updateCanceled(UpdateReservationStatusByAdmin request) {
         validation.validate(request);
         Reservation reservation = getReservationById(request.getIdReservation());
-
-        LocalDate localDate = converter.convertToLocalDate(request.getStartTime());
-        LocalDate localDate1 = converter.convertToLocalDate(request.getEndTime());
-        if(localDate.isBefore(LocalDate.now()) || localDate1.isBefore(LocalDate.now()))
-        {
-            throw new DateTimeException(ConstantMessage.ERROR_DATE);
-        }
-
-        reservation.setStartTime(converter.convertToLocalDate(request.getStartTime()));
-        reservation.setEndTime(converter.convertToLocalDate(request.getEndTime()));
-        reservation.setRoom(roomService.getById(request.getRoomId()));
-
-        //reservation.setReservationStatus(ConstantReservationStatus.CANCELLED);
+        reservation.setReservationStatus(ConstantReservationStatus.CANCELLED);
         Reservation saved = reservationRepository.saveAndFlush(reservation);
 
         return reservationMapper.toResponse(saved);
