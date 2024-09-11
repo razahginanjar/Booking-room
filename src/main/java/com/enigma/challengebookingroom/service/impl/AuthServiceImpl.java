@@ -1,10 +1,7 @@
 package com.enigma.challengebookingroom.service.impl;
 
 import com.enigma.challengebookingroom.constant.ConstantRole;
-import com.enigma.challengebookingroom.dto.request.EmployeeRequest;
-import com.enigma.challengebookingroom.dto.request.LoginRequest;
-import com.enigma.challengebookingroom.dto.request.RegisterRequest;
-import com.enigma.challengebookingroom.dto.request.RoleRequest;
+import com.enigma.challengebookingroom.dto.request.*;
 import com.enigma.challengebookingroom.dto.response.Auth.LoginResponse;
 import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;
 import com.enigma.challengebookingroom.dto.response.EmployeeResponse;
@@ -21,6 +18,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +26,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -118,6 +117,43 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .username(account.getUsername())
                 .roles(account.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList())
+                .build();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public RegisterResponse addRole(AddRoleRequest request) {
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        List<Role> roles = user.getRoles();
+        switch (request.getRole().toLowerCase()) {
+            case "admin":
+            case "administrator":
+                roles.add(roleService.getOrSave(ConstantRole.ROLE_ADMINISTRATOR));
+                break;
+            case "ga":
+            case "general affair":
+                roles.add(roleService.getOrSave(ConstantRole.ROLE_GENERAL_AFFAIR));
+                break;
+            default:
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid in role");
+        }
+        user.setRoles(roles);
+        userRepository.saveAndFlush(user);
+
+        EmployeeResponse employeeResponse = EmployeeResponse.builder()
+                .employeeId(user.getEmployee().getEmployeeId())
+                .employeeName(user.getEmployee().getEmployeeName())
+                .department(user.getEmployee().getDepartment())
+                .build();
+
+        return RegisterResponse.builder()
+                .username(request.getUsername())
+                .roles(user.getRoles().stream()
+                        .map(role -> role.getConstantRole().toString())
+                        .toList())
+                .employee(employeeResponse)
                 .build();
     }
 }
