@@ -65,6 +65,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PatchMapping(
             path = "/roles",
             produces = MediaType.APPLICATION_JSON_VALUE,
