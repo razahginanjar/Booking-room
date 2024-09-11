@@ -1,29 +1,73 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:14
     container_name: postgres
     environment:
-      POSTGRES_DB: template1
+      POSTGRES_DB: challengebookingroom_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+#    networks:
+#      - app-network
 
   spring-app:
-    build: ./
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: spring-app
+#    networks:
+#      - app-network
+#    network_mode: "host"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/challengebookingroom_db
+      SPRING_APPLICATION_NAME: challenge-booking-room
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/challengebookingroom_db
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_OPEN_IN_VIEW: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_HIGHLIGHT_SQL: "true"
+      SPRING_JPA_PROPERTIES_HIBERNATE_JDBC_TIME_ZONE: Asia/Jakarta
+
+      SPRING_JACKSON_TIME_ZONE: Asia/Jakarta
+
+      SERVER_PORT: 8081
+      SERVER_ERROR_INCLUDE_STACKTRACE: never
+
+      JWT_SECRET: Y2hhbGxlbmdlLWJvb2tpbmctcm9vbQ==
+      JWT_ISSUER: Enigma
+      JWT_EXPIRATION: 86400
+
+      USERNAME_SUPER_ADMIN: superadmin
+      PASSWORD_SUPER_ADMIN: c3VwZXJhZG1pbnJvb20=
+
+      # Prometheus and Monitoring
+      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: prometheus
+      MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED: "true"
+
+      # Mail-Sender config
+      API_KEY_PUBLIC: e06998b5898e775f0c82335db2e5798e
+      API_KEY_SECRET: ce772ea24e8d90aa0cc18d43a5bb0a8e
+      API_MAIL_SENDER: razahdedenginanjar@gmail.com
+      API_MAIL_ADMIN: ginanjar.razah24@gmail.com
+      API_URL_SERVER: http://spring-app:8081
+
+      # Swagger config
+      SPRINGDOC_SWAGGER_UI_PATH: /swagger-ui.html
+
     depends_on:
       - postgres
     ports:
       - "8081:8081"
+    volumes:
+      - ./logs:/var/logs/challenge-booking-room
+    restart: unless-stopped
 
   prometheus:
     image: prom/prometheus
@@ -51,8 +95,7 @@ services:
 
   zrok:
     image: openziti/zrok
-    restart: unless-stopped
-    user: "${UID}"
+    restart: no
     volumes:
       - $HOME/.zrok:/.zrok
     environment:
@@ -62,10 +105,12 @@ services:
       - -c
       - |
         zrok enable RBgZVgsh5nNn &&
-        zrok share public http://localhost:8081 --headless
+        zrok share public http://spring-app:8081 --headless
     container_name: zrok
     depends_on:
       - spring-app
+#    networks:
+#      - app-network
 
 volumes:
   pgdata:
