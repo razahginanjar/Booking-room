@@ -27,9 +27,9 @@
         <url/>
     </scm>
     <properties>
-        <java.version>20</java.version>
-        <maven.compiler.source>20</maven.compiler.source>
-        <maven.compiler.target>20</maven.compiler.target>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <maven.target.compiler>${java.version}</maven.target.compiler>
         <maven.source.compiler>${java.version}</maven.source.compiler>
         <maven.encoding>UTF-8</maven.encoding>
