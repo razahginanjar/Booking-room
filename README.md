@@ -11,7 +11,7 @@ The goal of this API is to streamline room booking operations and provide real-t
 availability information to employees, enabling them to make reservations quickly 
 and easily.
 
-### Feature
+### Features
 
 - Room booking accessible to all employees
 - Users can view room availability
@@ -24,8 +24,6 @@ and easily.
 To view the full API documentation, navigate to the following endpoint after starting the application: \
 http://localhost:8081/swagger-ui.html
 
-
-
 ### Instalation Guide
 
 1. Ensure you have installed at least Java Development Kit (JDK) version 17 and Maven on your computer.
@@ -34,16 +32,55 @@ http://localhost:8081/swagger-ui.html
 git clone https://git.enigmacamp.com/enigma-camp/enigmacamp-2.0/batch-31-java/timfinalproject1/challenge-booking-room.git
 ```
 3. Open a terminal or command prompt and navigate to the project directory where you saved the files.
+4. Resolve all dependencies:
+```bash
+mvn dependency:resolve
+```
+5. Update and install:
+```bash
+mvn clean install
+```
+6. If you wanna mess with docker (thing we ain't gonna do, but if you figured it ou pls let us know)
+```bash
+docker compose up --build
+```
 
-###### Notes
+# System Requirements
 
-- The developer used Java version 20 to build this application.
-You can adjust the JDK version you are using by modifying the properties in the `pom.xml` file.
-- Ensure you have correctly configured the `application.properties` file.
+## Java
+#### Java Version: 21
+The project requires JDK 21 for compiling and running.
+## Maven
+#### Maven Compiler Plugin
+The configuration specifies maven.compiler.source and maven.compiler.target both set to 21, indicating that Maven 3.x is suitable for building the project.
+## Dependencies
+#### Spring Boot 3.3.3
+#### PostgreSQL 14 & PostgreSQL JDBC Driver
+#### Micrometer & Prometheus
+#### JUnit & Mockito
+#### Mailjet Client
+#### OpenCSV
+#### Springdoc OpenAPI
+#### Lombok
+#### Spring Boot DevTools
+#### Build Tools
+#### Spring Boot Maven Plugin
+#### Asciidoctor Maven Plugin
+## Repositories
+#### Spring Milestones
+#### Maven Central
 
-#### Developer Team
+# Recommended System Setup
+- JDK 21: Install JDK 21 to compile and run the application.
+- Maven 3.x: Ensure Maven is installed and configured properly.
+- PostgreSQL 14 Database: Set up PostgreSQL if the application requires a database.
+- Internet Access: Required to download dependencies from repositories.
+- IDE: It’s beneficial to use an IDE like IntelliJ IDEA, Eclipse, or VSCode that supports Java and Maven.
+- **Ensure you have correctly configured the `application.properties` file.**
 
-- Carlos Richard **Gerald**ine
+# Developer Team
+
+- Carlos Richard **Gerald**ine ~ _allmyfriends_
 - **Ferdi**nand Johannes Robert Simanjuntak
 - Muhammad **Rasyad**dany Prasetyo
 - **Razah** Deden Ginanjar
