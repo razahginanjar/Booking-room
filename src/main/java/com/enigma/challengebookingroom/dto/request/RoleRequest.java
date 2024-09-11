@@ -6,16 +6,10 @@ import lombok.*;
 
 import java.io.Serializable;
 
-/**
- * DTO for {@link com.enigma.challengebookingroom.entity.Role}
- */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleRequest implements Serializable {
     String roleId;

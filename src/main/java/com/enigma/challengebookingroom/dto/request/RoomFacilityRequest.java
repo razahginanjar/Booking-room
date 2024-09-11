@@ -5,18 +5,13 @@ import lombok.*;
 
 import java.io.Serializable;
 
-/**
- * DTO for {@link com.enigma.challengebookingroom.entity.RoomFacility}
- */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoomFacilityRequest implements Serializable {
     String roomFacilityId;
     String roomFacilityName;
 }
+

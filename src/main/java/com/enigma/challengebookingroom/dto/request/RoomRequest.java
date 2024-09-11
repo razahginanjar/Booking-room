@@ -4,20 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
-/**
- * DTO for {@link com.enigma.challengebookingroom.entity.Room}
- */
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString
-@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoomRequest implements Serializable {
     String roomId;
     String roomType;
-    String roomCapacity;
+    Integer roomCapacity;
+    List<String> idFacilities;
 }

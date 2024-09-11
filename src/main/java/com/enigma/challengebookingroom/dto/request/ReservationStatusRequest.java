@@ -5,16 +5,10 @@ import lombok.*;
 
 import java.io.Serializable;
 
-/**
- * DTO for {@link com.enigma.challengebookingroom.entity.ReservationStatus}
- */
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@ToString
-@EqualsAndHashCode
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ReservationStatusRequest implements Serializable {
     String reservationStatusId;

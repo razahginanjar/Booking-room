@@ -1,24 +1,11 @@
 package com.enigma.challengebookingroom.entity;
 
-import java.util.List;
-
 import com.enigma.challengebookingroom.constant.ConstantTable;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.List;
 
 @ToString
 @Getter
@@ -38,13 +25,10 @@ public class Room {
     private String roomType;
 
     @Column(name = "capacity", nullable = false)
-    private String roomCapacity;
+    private Integer roomCapacity;
 
-    @OneToMany(mappedBy = "room", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<RoomFacility> roomFacilities;
-
-    @Column(name = "vacancy")
-    private Boolean vacancy;
 
 }

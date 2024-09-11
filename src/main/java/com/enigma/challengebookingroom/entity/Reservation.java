@@ -1,29 +1,14 @@
 package com.enigma.challengebookingroom.entity;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import com.enigma.challengebookingroom.constant.ConstantTable;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,7 +20,7 @@ import lombok.Setter;
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "reservation_id", nullable = false, updatable = false, unique = true)
+    @Column(name = "id", nullable = false, updatable = false, unique = true)
     private String reservationId;
 
     @ManyToOne
@@ -49,37 +34,25 @@ public class Reservation {
     private Room room;
 
     @Column(name = "reserve_date", nullable = false, updatable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reserveDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reserveDate;
 
     @Column(name = "start_time", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate startTime;
 
     @Column(name = "end_time", nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate endTime;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "reservation_status_id")
-    private ReservationStatus reservationStatus;
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ConstantReservationStatus reservationStatus;
 
-    @Column(name = "reservation_description", nullable = false, updatable = false)
+    @Column(name = "reservation_description", updatable = false, nullable = false)
     private String reservationDescription;
 
-    @Column(name = "action_reason", nullable = false, updatable = false)
-    private String actionReason;
-
-    @OneToMany(mappedBy = "reservation", fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Equipment> equipments;
-
-    @PrePersist
-    protected void onCreate() {
-        this.reserveDate = LocalDateTime.now();
-        this.startTime = LocalDateTime.now().plusDays(1);
-        this.endTime = LocalDateTime.now().plusDays(1).plusHours(4);
-    }
 
 }
