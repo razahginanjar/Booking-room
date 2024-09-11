@@ -39,4 +39,8 @@ public class ConstantMessage {
     public static final String NOT_BLANK = "Cannot be empty";
 
     public static final String ERROR_DATE = "Date cannot be in the past";
+
+    public static final String ALREADY_CLICK_HTML = "<html><body><h1>Already Clicked</h1><p>This link has already been used. Please contact support if you need assistance.</p></body></html>";
+
+    public static final String SUCCESS_CLICKED = "<html><body><h1>Success</h1><p>Your response has been recorded. Thank you!</p></body></html>";
 }

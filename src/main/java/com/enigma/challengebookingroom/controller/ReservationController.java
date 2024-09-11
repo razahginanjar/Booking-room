@@ -5,23 +5,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.enigma.challengebookingroom.constant.ConstantMessage;
+import com.enigma.challengebookingroom.dto.request.UpdateReservationStatusByAdmin;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import com.enigma.challengebookingroom.constant.APIUrl;
 import com.enigma.challengebookingroom.constant.ConstantReservationStatus;
 import com.enigma.challengebookingroom.dto.request.InsertDateRequest;
 import com.enigma.challengebookingroom.dto.request.ReservationRequest;
-import com.enigma.challengebookingroom.dto.request.UpdateReservationByAdmin;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.GetReservationStatusResponse;
 import com.enigma.challengebookingroom.dto.response.ReservationResponse;
@@ -35,13 +36,22 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(path = APIUrl.RESERVATION)
+@RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
+@WebMvcTest(ReservationController.class)
+@Tag(name = "Reservation")
 public class ReservationController {
     private final ReservationService reservationService;
+    @Value("${challengebookingroom.API_URL_SERVER}")
+    private  String URL_SERVER;
     private final CsvService csvService;
     private final Map<String, Boolean> clickedLinks = new HashMap<>();
 
+    @Operation(
+            description = "Add Reservation to DB(ADMIN PRIVILEGE)",
+            summary = "Add Reservation "
+    )
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -58,6 +68,11 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(
+            description = "Get all reservation(ADMIN PRIVILEGE)",
+            summary = "Get all reservation"
+    )
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<ReservationResponse>>> getAllReservations(
             @RequestParam(name = "status") ConstantReservationStatus status
@@ -71,6 +86,11 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Get specific reservation (ADMIN, AND GENERAL_AFFAIR PRIVILEGE)",
+            summary = "Get specific reservation"
+    )
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -85,15 +105,19 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // update reservation data
-    @PutMapping(
+    @Operation(
+            description = "Update reservation information (ADMIN PRIVILEGE)",
+            summary = "Update reservation information"
+    )
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @PatchMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByUser(
-            @RequestBody UpdateReservationByAdmin request
+    public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationCanceled(
+            @RequestBody UpdateReservationStatusByAdmin request
     ) {
-        ReservationResponse update = reservationService.update(request);
+        ReservationResponse update = reservationService.updateCanceled(request);
         CommonResponse<ReservationResponse> response = CommonResponse.<ReservationResponse>builder()
                 .statusCode(HttpStatus.OK.value())
                 .message(HttpStatus.OK.getReasonPhrase())
@@ -102,25 +126,7 @@ public class ReservationController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    // update status
-//    @PutMapping(
-//            path =APIUrl.PATH_ADMIN,
-//            produces = MediaType.APPLICATION_JSON_VALUE,
-//            consumes = MediaType.APPLICATION_JSON_VALUE
-//    )
-//    public ResponseEntity<CommonResponse<ReservationResponse>> updateReservationByAdmin(
-//            @RequestBody UpdateReservationStatusByAdmin request
-//    ) {
-//        ReservationResponse updatedByAdmin = reservationService.updateByAdmin(request);
-//        CommonResponse<ReservationResponse> response = CommonResponse.<ReservationResponse>builder()
-//                .statusCode(HttpStatus.OK.value())
-//                .message(HttpStatus.OK.getReasonPhrase())
-//                .data(updatedByAdmin)
-//                .build();
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
-
-    // patch mapping buat endpoint mail sender
+    @Hidden
     @GetMapping(
             path = APIUrl.PATH_STATUS + APIUrl.PATH_VAR_ID
     )
@@ -130,23 +136,18 @@ public class ReservationController {
             HttpServletResponse response
     ) throws IOException {
         if (clickedLinks.containsKey(id)) {
-            // Redirect to a page informing the user that the link has already been used
-            response.sendRedirect("http://localhost:8081"+APIUrl.RESERVATION+APIUrl.ALREADY_CLICK);
+            response.sendRedirect(URL_SERVER+APIUrl.RESERVATION+APIUrl.ALREADY_CLICK);
         } else {
-            // Mark the link as clicked
             clickedLinks.put(id, true);
             reservationService.updateStatus(id, status);
-//            CommonResponse<String> commonResponse = CommonResponse.<String>builder()
-//                    .statusCode(HttpStatus.OK.value())
-//                    .message(HttpStatus.OK.getReasonPhrase())
-//                    .build();
-            // Redirect to a success page
-            response.sendRedirect("http://localhost:8081"+APIUrl.RESERVATION+APIUrl.SUCCESS);
-        }
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
-    // controller buat get avail room atau equipment disini aja
+            response.sendRedirect(URL_SERVER+APIUrl.RESERVATION+APIUrl.SUCCESS);
+        }
+    }
+    @Operation(
+            description = "Get reservation based on date",
+            summary = "Get reservation based on date"
+    )
     @GetMapping(
             path = APIUrl.PATH_AVAIL,
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -163,28 +164,46 @@ public class ReservationController {
                 .build();
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
-    // download csv
+    @Operation(
+            description = "Download data reservation in csv",
+            summary = "Download data reservation"
+    )
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_DOWNLOAD,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public void downloadReservation(HttpServletResponse response) throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException, IOException {
-        // manggil service kiw kiw disini
+    public void downloadReservation(HttpServletResponse response)
+            throws CsvRequiredFieldEmptyException, CsvDataTypeMismatchException, IOException {
         csvService.Download(response);
-        CommonResponse<String> commonResponse = CommonResponse.<String>builder()
-                .statusCode(HttpStatus.OK.value())
-                .message("Downloaded")
-                .build();
     }
 
+    @Hidden
     @GetMapping(APIUrl.ALREADY_CLICK)
     public String alreadyClicked() {
-        return "<html><body><h1>Already Clicked</h1><p>This link has already been used. Please contact support if you need assistance.</p></body></html>";
+        return ConstantMessage.ALREADY_CLICK_HTML;
     }
 
+    @Hidden
     @GetMapping(APIUrl.SUCCESS)
     public String success() {
-        return "<html><body><h1>Success</h1><p>Your response has been recorded. Thank you!</p></body></html>";
+        return ConstantMessage.SUCCESS_CLICKED;
+    }
+
+    @Operation(
+            description = "Get data reservation based on employee",
+            summary = "Get data reservation"
+    )
+    @GetMapping(
+            path = "/employee",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CommonResponse<List<ReservationResponse>>> getAllByEmployee() {
+        List<ReservationResponse> list = reservationService.historyOfCustomer();
+        CommonResponse<List<ReservationResponse>> response = CommonResponse.<List<ReservationResponse>>builder()
+                .statusCode(HttpStatus.OK.value())
+                .message(HttpStatus.OK.getReasonPhrase())
+                .data((list))
+                .build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

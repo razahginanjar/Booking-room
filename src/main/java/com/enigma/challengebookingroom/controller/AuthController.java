@@ -7,10 +7,14 @@ import com.enigma.challengebookingroom.dto.response.Auth.LoginResponse;
 import com.enigma.challengebookingroom.dto.response.Auth.RegisterResponse;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,9 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.AUTH)
+@Tag(name = "Authentication")
 public class AuthController {
     private final AuthService authService;
 
+    @SecurityRequirement(name = "bearerAuth")
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
+    @Operation(
+            description = "Register new user (ADMIN PRIVILEGE)",
+            summary = "Register new user"
+    )
     @PostMapping(
             path = APIUrl.PATH_REGISTER,
             produces = MediaType.APPLICATION_JSON_VALUE,
@@ -37,6 +48,10 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(
+            description = "Login",
+            summary = "Login"
+    )
     @PostMapping(
             path = APIUrl.PATH_LOGIN,
             produces = MediaType.APPLICATION_JSON_VALUE,

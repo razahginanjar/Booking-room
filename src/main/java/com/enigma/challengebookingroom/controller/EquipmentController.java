@@ -4,12 +4,15 @@ import com.enigma.challengebookingroom.constant.APIUrl;
 import com.enigma.challengebookingroom.dto.request.EquipmentRequest;
 import com.enigma.challengebookingroom.dto.response.CommonResponse;
 import com.enigma.challengebookingroom.dto.response.EquipmentResponse;
-import com.enigma.challengebookingroom.entity.Equipment;
 import com.enigma.challengebookingroom.service.EquipmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,9 +20,16 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = APIUrl.EQUIPMENT)
+@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "Equipment")
 public class EquipmentController {
     private final EquipmentService equipmentService;
 
+    @Operation(
+            description = "Add equipment to DB(ADMIN PRIVILEGE)",
+            summary = "Add equipment "
+    )
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PostMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -36,6 +46,10 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(
+            description = "Get All Equipment",
+            summary = "Get All Equipment "
+    )
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CommonResponse<List<EquipmentResponse>>> getAllEquipment() {
         List<EquipmentResponse> list = equipmentService.getAll();
@@ -47,6 +61,11 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Get Specific Equipment (ADMIN, AND GENERAL_AFFAIR PRIVILEGE)",
+            summary = "Get Specific Equipment "
+    )
+    @PreAuthorize("hasAnyRole('ADMINISTRATOR', 'GENERAL_AFFAIR')")
     @GetMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE
@@ -61,6 +80,11 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Update equipment (ADMIN PRIVILEGE)",
+            summary = "Update equipment"
+    )
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @PutMapping(
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
@@ -77,6 +101,11 @@ public class EquipmentController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @Operation(
+            description = "Delete specific equipment (ADMIN PRIVILEGE)",
+            summary = "Delete specific equipment"
+    )
+    @PreAuthorize("hasRole('ADMINISTRATOR')")
     @DeleteMapping(
             path = APIUrl.PATH_VAR_ID,
             produces = MediaType.APPLICATION_JSON_VALUE

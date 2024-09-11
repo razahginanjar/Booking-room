@@ -53,7 +53,6 @@ public class JwtServiceImpl implements JwtService {
                     .withIssuer(JWT_ISSUE)
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            // Invalid Signing configuration / Couldn't convert Claims.
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Error: While Creating Token");
         }
     }

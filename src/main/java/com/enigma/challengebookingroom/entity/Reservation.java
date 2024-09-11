@@ -56,11 +56,4 @@ public class Reservation {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Equipment> equipments;
 
-//    @PrePersist
-//    protected void onCreate() {
-//        this.reserveDate = LocalDate.now();
-//        this.startTime = LocalDate.now().plusDays(1);
-//        this.endTime = LocalDate.now().plusDays(1);
-//    }
-
 }

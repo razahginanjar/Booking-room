@@ -31,10 +31,7 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    //@ManyToOne
     @ManyToMany(fetch = FetchType.EAGER)
-//    @JsonBackReference
-//    @JoinColumn(name = "role_id")
     private List<Role> roles;
 
     public String getUserId() {

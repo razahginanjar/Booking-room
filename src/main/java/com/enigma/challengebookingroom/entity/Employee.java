@@ -43,7 +43,4 @@ public class Employee {
     @Column(name = "corporate_email", nullable = false, unique = true)
     private String corporateEmail;
 
-//    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id")
-//    private User user;
 }
