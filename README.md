@@ -19,6 +19,13 @@ and easily.
 - Room booking approval by General Affairs
 - Admin and General Affairs can download reports in CSV format
 
+### Documentation
+
+To view the full API documentation, navigate to the following endpoint after starting the application: \
+http://localhost:8081/swagger-ui.html
+
+
+
 ### Instalation Guide
 
 1. Ensure you have installed at least Java Development Kit (JDK) version 17 and Maven on your computer.
