@@ -29,7 +29,7 @@ http://localhost:8081/swagger-ui.html
 1. Ensure you have installed at least Java Development Kit (JDK) version 17 and Maven on your computer.
 2. Clone this repository to your local machine:
 ``` bash
-git clone https://git.enigmacamp.com/enigma-camp/enigmacamp-2.0/batch-31-java/timfinalproject1/challenge-booking-room.git
+git clone https://github.com/razahginanjar/Booking-room.git
 ```
 3. Open a terminal or command prompt and navigate to the project directory where you saved the files.
 4. Resolve all dependencies:
