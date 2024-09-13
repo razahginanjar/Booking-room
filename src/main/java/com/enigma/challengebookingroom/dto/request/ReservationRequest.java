@@ -40,7 +40,7 @@ public class ReservationRequest implements Serializable {
     @NotNull(message = ConstantMessage.NOT_NULL)
     private String roomId;
 
-    @NotBlank(message = ConstantMessage.NOT_BLANK)
+    //@NotBlank(message = ConstantMessage.NOT_BLANK)
     private String employeeId;
 
     private List<EquipmentRequest> equipmentRequests;

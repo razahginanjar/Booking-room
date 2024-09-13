@@ -56,10 +56,3 @@ Enum reservationStatus {
   "DECLINED"
   "CANCELLED"
 }
-
-aku hapus beberapa table yg ga terlalu kepake kaya equipment status sama reservation status
-karena itu cuma di pake di service itu aja (beda kasus sama role user karena dia dipake juga di auth)
-
-activity log aku masukin ke tabel employee
-karena menurutku tabel user hanya fokus buat masalah security (authentication sama authorization) aja
-jadi yang informatif2 masuk table employee aja

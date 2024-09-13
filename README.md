@@ -44,6 +44,8 @@ mvn clean install
 ```bash
 docker compose up --build
 ```
+### INSTRUCTIONS
+Before you run the app, you should makes ure of the application.properties configuration such as the email sender(email that have mailjet account), or the database name.
 
 # System Requirements
 

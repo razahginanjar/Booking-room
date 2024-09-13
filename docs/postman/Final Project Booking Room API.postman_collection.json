@@ -1,0 +1,346 @@
+{
+	"info": {
+		"_postman_id": "5da23147-dab6-42cd-b415-7d33e98301c0",
+		"name": "Final Project Booking Room API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "29987918"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"username\" : \"superadmin\",\r\n\t\"password\" : \"c3VwZXJhZG1pbnJvb20=\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}/api/v1/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmMzNzJiNi1jMGY1LTQ4N2UtYmZkZS0xZTY3M2MxMzk1NzkiLCJSb2xlIjpbIlJPTEVfQURNSU5JU1RSQVRPUiIsIlJPTEVfR0VORVJBTF9BRkZBSVIiLCJST0xFX1VTRVIiXSwiaWF0IjoxNzI2MDE4MzYzLCJleHAiOjE4MjYwMTgzNjIsImlzcyI6IkVuaWdtYSJ9.MD75DbmPs7scPUyXPq3w--D52HkDy-m7-gvhNM3_UsWeXgRS6hZ_H4hbt1Vgvi341OybvKBUzAeYdh-j1AkJVA"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"employeeName\": \"R\",\r\n  \"department\": \"departement of menghadapi kesabaran\",\r\n  \"phoneNumber\": \"081234567890\",\r\n  \"corporateEmail\": \"purapuratangguh@mail.com\",\r\n  \"username\": \"anon\",\r\n  \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}/api/v1/auth/register"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Get Employee by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmMzNzJiNi1jMGY1LTQ4N2UtYmZkZS0xZTY3M2MxMzk1NzkiLCJSb2xlIjpbIlJPTEVfQURNSU5JU1RSQVRPUiIsIlJPTEVfR0VORVJBTF9BRkZBSVIiLCJST0xFX1VTRVIiXSwiaWF0IjoxNzI2MDE4MzYzLCJleHAiOjE4MjYwMTgzNjIsImlzcyI6IkVuaWdtYSJ9.MD75DbmPs7scPUyXPq3w--D52HkDy-m7-gvhNM3_UsWeXgRS6hZ_H4hbt1Vgvi341OybvKBUzAeYdh-j1AkJVA"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/employee/{{id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employee",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmMzNzJiNi1jMGY1LTQ4N2UtYmZkZS0xZTY3M2MxMzk1NzkiLCJSb2xlIjpbIlJPTEVfQURNSU5JU1RSQVRPUiIsIlJPTEVfR0VORVJBTF9BRkZBSVIiLCJST0xFX1VTRVIiXSwiaWF0IjoxNzI2MDE4MzYzLCJleHAiOjE4MjYwMTgzNjIsImlzcyI6IkVuaWdtYSJ9.MD75DbmPs7scPUyXPq3w--D52HkDy-m7-gvhNM3_UsWeXgRS6hZ_H4hbt1Vgvi341OybvKBUzAeYdh-j1AkJVA"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/employee"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{server}}/api/v1/employee"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{server}}/api/v1/employee/{{id}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Equipment",
+			"item": [
+				{
+					"name": "Get All Equipment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/equipment"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Equipment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{server}}/api/v1/equipment"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Equipment by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/equipment/{{id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Equipment",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{server}}/api/v1/equipment"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Equipment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{server}}/api/v1/equipment/{{id}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reservation",
+			"item": [
+				{
+					"name": "Create Reservation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Reservation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reservation by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/{{id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Available Reservation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/available-room"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All by Employee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/employee"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status by GA (E-mail)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/status/{{id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status to Canceled by GA",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation"
+					},
+					"response": []
+				},
+				{
+					"name": "Download Reservation Report to CSV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/download"
+					},
+					"response": []
+				},
+				{
+					"name": "Update by E-mail Success",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/success"
+					},
+					"response": []
+				},
+				{
+					"name": "E-mail has been clicked",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/reservation/already-clicked"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room",
+			"item": [
+				{
+					"name": "Create Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{server}}/api/v1/room"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Room",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/room"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Room by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/room/{{id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Room",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{server}}/api/v1/room"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Room",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{server}}/api/v1/room/{{id}}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Room Facility",
+			"item": [
+				{
+					"name": "Create Room Facility",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{server}}/api/v1/room_facility"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Room Facility by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{server}}/api/v1/room_facility/{{id}}"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Room Facility",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "{{server}}/api/v1/room_facility"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Room Facility",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "{{server}}/api/v1/room_facility/{{id}}"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
